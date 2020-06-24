@@ -28,7 +28,7 @@ public class Adictos {
             control.ejecutar();
             
             
-        //prueba
+        //prueba 5
         }
         }
     }
