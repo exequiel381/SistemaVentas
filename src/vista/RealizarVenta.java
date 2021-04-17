@@ -128,8 +128,8 @@ public class RealizarVenta extends javax.swing.JDialog{
          this.filaSeleccionada=filaSeleccionada;
      }
      
-     public int getFilaSeleccionada(){
-         return filaSeleccionada;
+     public String getFilaSeleccionada(){
+        return ""+filaSeleccionada;
      }
    
     

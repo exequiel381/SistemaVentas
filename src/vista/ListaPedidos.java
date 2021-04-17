@@ -258,7 +258,7 @@ public class ListaPedidos extends javax.swing.JDialog{
 
         btnCancelarPedido.setText("Cancelar Pedido");
 
-        btnVerDetalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vista/Screenshot_2.png"))); // NOI18N
+        btnVerDetalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8_scroll_down_26px.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

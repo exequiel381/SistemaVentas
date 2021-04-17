@@ -12,6 +12,7 @@ class FacturaVenta {
 private double montoFactura;
 private double montoVenta;
 
+
     public FacturaVenta(double montoVenta) {
         this.montoVenta = montoVenta;
     }
@@ -19,6 +20,7 @@ private double montoVenta;
     
     
 public Double getTotalFactura(){
+    this.montoFactura = this.montoVenta;
     return montoFactura;
 }    
     

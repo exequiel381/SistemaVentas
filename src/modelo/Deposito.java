@@ -16,6 +16,7 @@ public class Deposito {
     private int cantidad_insumo;
     private int cantidad_producto;
     private int idDeposito;
+    public String direccion;
     
     public Deposito(Producto producto,int Cantidad){
         this.producto=producto;
@@ -71,6 +72,16 @@ public class Deposito {
     public void setCantidad_producto(int cantidad_producto) {
         this.cantidad_producto = cantidad_producto;
     }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+    
+    
     
     
 }

@@ -33,9 +33,7 @@ public class DepositoDAO {
     public void AgregarProductoADeposito(){
         try {
             String sql = "INSERT INTO deposito SET idDeposito='"+"1"+"', "
-                    +"Direccion='"+"Local"+"', "
                     +"Stock='"+deposito.getCantidad_producto()+"',"//
-                    +"Localidad_idLocalidad='"+"4000"+"', "
                     +"Producto_idProducto='"+deposito.getProducto().getCodigo()+"'";//
          
             con.getConsulta().execute(sql);
@@ -152,4 +150,6 @@ public class DepositoDAO {
         }
         return 0;
     }
+    
+   
 }

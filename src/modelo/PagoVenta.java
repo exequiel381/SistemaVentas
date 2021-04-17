@@ -16,6 +16,7 @@ public class PagoVenta {
     private String tipoPago;
     private Double montoPago;
     private String fecha;
+    private FacturaVenta factura;
 
     public PagoVenta() {
     }
@@ -27,6 +28,15 @@ public class PagoVenta {
         this.montoPago = montoPago;
     }
 
+    public FacturaVenta getFactura() {
+        return factura;
+    }
+
+    public void setFactura(FacturaVenta factura) {
+        this.factura = factura;
+    }
+
+    
     public String getFecha() {
         return fecha;
     }
@@ -67,6 +77,10 @@ public class PagoVenta {
 
     public void setMontoPago(Double montoPago) {
         this.montoPago = montoPago;
+    }
+
+    public void GenerarFactura(Double montoVenta) {
+        this.factura = new FacturaVenta(montoVenta); //To change body of generated methods, choose Tools | Templates.
     }
     
     

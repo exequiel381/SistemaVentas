@@ -123,11 +123,11 @@ public class ControladorVentas implements ActionListener {
         }
 
         if (e.getActionCommand().equals(VentanaVentas.QUITAR_PROD)) {
-//            
-            int IndexARemover = 0;
+//           //debemos crear un id de linea de venta
+            //podemos hacer que coincida con la cantidad tambien
+            int IndexARemover = 1000;
             for (int i = 0; i < LineaVenta.size(); i++) {
-
-                if (LineaVenta.get(i).getProducto().getCodigo().equals(VentanaVentas.getFilaSeleccionada())) {
+                if (LineaVenta.get(i).getProducto().getCodigo().equals(VentanaVentas.getFilaSeleccionada())) {//podemos poner varias lineas del mismo producto
                     IndexARemover = i;
                 }
             }
@@ -144,6 +144,7 @@ public class ControladorVentas implements ActionListener {
 
         if (e.getActionCommand().equals(VentanaVentas.FINALIZAR_VENTA)) {
             idVenta++;
+            PagoVenta pv;
 
             Empleado emp = new Empleado();
             emp.setDni(auntenticacion.getDni());
@@ -172,18 +173,26 @@ public class ControladorVentas implements ActionListener {
             LineaVenta.clear();
             this.RellenarTabla();
 
+           
+            
             //La idea seria que la factura calcule su total con impuestos o lo que fuere que lleva
             //Que atributos van en factura, y si debemos guardarla en la base de da
             if (VentanaVentas.getTarjeta() != null) {
-                venta.GenerarPago(true);
+                pv=venta.GenerarPago(true);
+                
             } else {
-                venta.GenerarPago(false);
+                pv=venta.GenerarPago(false);
             }
+            
+            pv.GenerarFactura(venta.getTotal());
+            pv.setMontoPago(venta.getTotal());
+            
+            PagoVentaDAO pvd = new PagoVentaDAO(pv,con);//La factura la guardamos con el mismo id de venta
+            pvd.AgregarPagoVenta();//Guardamos venta y factura
 
-            //No guardara porque no tengo una factura en la base de datos y fallara 
-            //PagoVentaDAO pvd = new PagoVentaDAO(venta.getPv(),con);
-            //pvd.AgregarPagoVenta();
-            // venta.getFactura.imprimir();
+            //this.ImprimirFactura(pv.GenerarFactura());
+            
+          
         }
 
         if (e.getActionCommand().equals(listaVentas.VERDETALLE)) {

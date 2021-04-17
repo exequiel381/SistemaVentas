@@ -25,11 +25,17 @@ public class PagoVentaDAO {
     }
     
     public void AgregarPagoVenta(){
-        try {
-            String sql = "INSERT INTO pagoVenta SET Venta_idVenta='"+pv.getIdVenta()+"', "
+        try{ 
+            String sql = "INSERT INTO factura_de_venta SET idFactura_de_venta='"+pv.getIdVenta()+"', "
                     +"Fecha='"+pv.getFecha()+"', "
-                    +"tipoPago='"+pv.getTipoPago()+"', "
-                    +"montoPago='"+pv.getMontoPago()+"'";
+                    +"Total='"+pv.getFactura().getTotalFactura()+"'";
+            
+            con.getConsulta().execute(sql);
+            
+            sql = "INSERT INTO pago_venta SET Venta_idVenta='"+pv.getIdVenta()+"', "
+                    +"Factura_de_venta_idFactura_de_venta='"+pv.getIdVenta()+"', "
+                    +"tipo='"+pv.getTipoPago()+"', "
+                    +"monto='"+pv.getMontoPago()+"'";
                     
             
             
@@ -37,6 +43,7 @@ public class PagoVentaDAO {
             System.out.println("Pago Guardado");
         } catch (SQLException ex) {
             System.out.println("No se registro el pago");
+            System.out.println(ex);
         }
     }
     

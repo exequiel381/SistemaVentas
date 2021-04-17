@@ -23,6 +23,7 @@ public class ControladorStock implements ActionListener{
     private Conexion con;
     private GestionarStock gestionarstock;
     
+    
     public ControladorStock(Conexion con){
         gestionarstock = new GestionarStock(null,true);
         this.con=con;
@@ -32,6 +33,7 @@ public class ControladorStock implements ActionListener{
        
         gestionarstock.setControlador(this);
         this.RellenarTabla();
+        //gestionarstock.agregarDepositos(depositos);
         gestionarstock.ejecutar();
         
     }
