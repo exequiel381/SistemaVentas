@@ -88,6 +88,8 @@ public class ControladorEmpleado implements ActionListener {
             
             empleadoDAO.AgregarEmpleado();
             
+            //UsuarioDAO usuarioDAP = new UsuarioDAO(usuario,con);
+            //usuarioDAO.AgregarUsuario();
             this.RellenarTablas(empleadoDAO);
          
             

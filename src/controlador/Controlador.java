@@ -58,7 +58,9 @@ public class Controlador implements ActionListener {
                 
             } else {
                 //si no lee la de acceso rapido , con el dni del empleado lo buscamos
+                /*
                 
+                */
                 Empleado emp = new Empleado();
                 emp.setDni(Integer.parseInt(autenticacion_vista.getUsuario()));
                 EmpleadoDAO empDAO = new EmpleadoDAO(emp, con);
