@@ -64,6 +64,8 @@ public class Controlador implements ActionListener {
                 Empleado emp = new Empleado();
                 emp.setDni(Integer.parseInt(autenticacion_vista.getUsuario()));
                 EmpleadoDAO empDAO = new EmpleadoDAO(emp, con);
+                //buscamos un usuario y si lo encontramos con el usuario y contraseña, damos permiso segun su rol
+                
                 if (!autenticacion_vista.getUsuario().equals("administrador")) {
                     if (empDAO.buscar() != null) {
                         try {

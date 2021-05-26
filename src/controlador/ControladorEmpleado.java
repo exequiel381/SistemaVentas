@@ -7,11 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import modelo.Conexion;
-import modelo.Empleado;
-import modelo.EmpleadoDAO;
-import modelo.Localidad;
-import modelo.LocalidadDAO;
+import modelo.*;
 import vista.GestionarEmpleado;
 
 
@@ -85,11 +81,15 @@ public class ControladorEmpleado implements ActionListener {
             
             
             EmpleadoDAO empleadoDAO = new EmpleadoDAO(empleado,con);
-            
             empleadoDAO.AgregarEmpleado();
-            
-            //UsuarioDAO usuarioDAP = new UsuarioDAO(usuario,con);
-            //usuarioDAO.AgregarUsuario();
+            /*
+            //Con el rol podemos hacer que lo seleccione en un combo box que carguemos de la base 
+            Rol r = new Rol(2,"empleado");
+            if(GestionarEmpleado.getRol()) r = new Rol(1,"admin");
+            Usuario usuarioNuevo = new Usuario(""+empleado.getDni(),GestionarEmpleado.getContraseña());
+            usuarioNuevo.setRol(r);
+            UsuarioDAO usuarioDAO = new UsuarioDAO(usuarioNuevo,con);
+            //usuarioDAO.AgregarUsuario();*/
             this.RellenarTablas(empleadoDAO);
          
             
