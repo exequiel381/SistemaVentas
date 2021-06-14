@@ -21,16 +21,17 @@ public class UsuarioDAO {
         this.con = con;
         this.usuario = usuario;
     }
-    /*
-    public void AgregarEmpleado(){
+    
+    public void AgregarUsuario(){
         
         try{
            
+           
             
-           String sql = "INSERT INTO usuarios SET usuario='"+usuario.getDni()+"', "
-                    + "AES_ENCRYPT(contraseña='"+usuario.getContraseña())+ "', "
-                    + "Empleado_DNI='"+ usuario.getDni()+ "', "
-                    + "Rol_idRol='"+usuario.getRol.getId+"'";
+           String sql = "INSERT INTO usuarios SET usuario='"+usuario.getUsuario()+"', "
+                    + "contraseña=MD5('"+usuario.getContraseña()+"'), "
+                    + "Empleado_DNI='"+ usuario.getUsuario()+ "', "
+                    + "Rol_idRol='"+usuario.getRol().getIdRol()+"'";
              
             con.getConsulta().execute(sql);
             JOptionPane.showMessageDialog(null,"Usuario agregado");
@@ -38,19 +39,20 @@ public class UsuarioDAO {
         catch(SQLException e){
            
             JOptionPane.showMessageDialog(null,"fallando el ingreso de usuario y contraseña");
+            System.out.println(e);
         }
     }
-*/
+
     
     public Usuario buscar(){
         try{
           
-            String sql = "SELECT * FROM empleado WHERE dni='"+usuario.getUsuario()+"'"+ " and " + "contrasenia='"+usuario.getContraseña()+"'";
+            String sql = "SELECT * FROM usuarios WHERE usuario='"+usuario.getUsuario()+"'"+ " and " + "contraseña='"+usuario.getContraseña()+"'";
             ResultSet fila = con.getConsulta().executeQuery(sql);
             if(fila.next()){
                 Usuario tmp = new Usuario();
                 tmp.setUsuario(fila.getString("usuario"));
-                tmp.setContraseña(fila.getString("contrasenia"));
+                tmp.setContraseña(fila.getString("contraseña"));
                 
                 
                 return tmp;
@@ -58,7 +60,7 @@ public class UsuarioDAO {
             
         }
         catch(SQLException e){
-            System.out.println("Error al buscar datos de la tabla");
+            System.out.println("Error al buscar datos de la tabla USUARIOS");
         }        
         return null;
     }

@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class Conexion {
     
-    private String basededatos="mydb2";
+    private String basededatos="diagramaventas5.0";
     private String servidor="localhost:3306";
     private String zona = "?useTimezone=true&serverTimezone=UTC";
     private String URL="jdbc:mysql://"+servidor+"/"+basededatos+zona;

@@ -82,14 +82,14 @@ public class ControladorEmpleado implements ActionListener {
             
             EmpleadoDAO empleadoDAO = new EmpleadoDAO(empleado,con);
             empleadoDAO.AgregarEmpleado();
-            /*
+            
             //Con el rol podemos hacer que lo seleccione en un combo box que carguemos de la base 
             Rol r = new Rol(2,"empleado");
             if(GestionarEmpleado.getRol()) r = new Rol(1,"admin");
             Usuario usuarioNuevo = new Usuario(""+empleado.getDni(),GestionarEmpleado.getContraseña());
             usuarioNuevo.setRol(r);
             UsuarioDAO usuarioDAO = new UsuarioDAO(usuarioNuevo,con);
-            //usuarioDAO.AgregarUsuario();*/
+            usuarioDAO.AgregarUsuario();
             this.RellenarTablas(empleadoDAO);
          
             

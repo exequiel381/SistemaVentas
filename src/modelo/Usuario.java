@@ -27,8 +27,8 @@ public class Usuario {
         this.contraseña = contraseña;
     }
 
-    Usuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Usuario() {
+        
     }
 
     public String getUsuario() {

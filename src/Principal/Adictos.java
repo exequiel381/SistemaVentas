@@ -9,6 +9,7 @@ import controlador.Controlador;
 import javax.swing.JOptionPane;
 import modelo.Autenticacion;
 import modelo.Conexion;
+import modelo.MD5;
 import vista.AutenticacionVista;
 
 /**
@@ -27,9 +28,9 @@ public class Adictos {
             Controlador control = new Controlador(con);
             control.ejecutar();
             
-            
-        
         }
+       
+      
         }
     }
     
