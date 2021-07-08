@@ -30,12 +30,12 @@ public class ControladorPedidos implements ActionListener {
     private ArrayList<LineaPedido> lineasDePedido = new ArrayList<LineaPedido>();
     private PedidoDAO aux;
     private int idPedido;
-    private Autenticacion autenticacion;
+    private Usuario _usuarioAutenticado;
     private double totalPedido;
     
     
     
-    public ControladorPedidos(Conexion con, Autenticacion autenticacion) {
+    public ControladorPedidos(Conexion con, Usuario autenticacion) {
         this.con = con;
         
         VentanaCompra = new RegistrarPedido(null, true);
@@ -44,7 +44,7 @@ public class ControladorPedidos implements ActionListener {
         
         this.aux = new PedidoDAO(con);
         this.idPedido = aux.UltimoPedido();
-        this.autenticacion = autenticacion;
+        this._usuarioAutenticado = autenticacion;
 
     }
 
@@ -81,7 +81,7 @@ public class ControladorPedidos implements ActionListener {
             idPedido++;
   
             Empleado emp = new Empleado();
-            emp.setDni(autenticacion.getDni());
+            emp.setDni(Integer.parseInt(_usuarioAutenticado.getUsuario()));
           
             
             Proveedor prov = new Proveedor();

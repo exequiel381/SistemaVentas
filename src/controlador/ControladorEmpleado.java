@@ -17,9 +17,11 @@ public class ControladorEmpleado implements ActionListener {
     private GestionarEmpleado GestionarEmpleado;
     private Empleado modelo;
     private Localidad localidad;
+    private  Usuario _usuarioAutenticado;
      
-     public ControladorEmpleado(Conexion con){
+     public ControladorEmpleado(Conexion con, Usuario usuarioAutenticado){
          this.con=con;
+         this._usuarioAutenticado=usuarioAutenticado;
          GestionarEmpleado = new GestionarEmpleado(null,true);
          
     

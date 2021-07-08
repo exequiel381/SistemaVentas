@@ -58,7 +58,7 @@ public class DepositoDAO {
                     
         }
         try{
-            String sql = "SELECT Producto.idProducto,Producto.precioCompra,Producto.Talle,Producto.Descripcion,Producto.PrecioU,deposito.idDeposito,deposito.Stock FROM Producto,deposito WHERE Producto.idProducto = deposito.Producto_idProducto"+Filtrado;
+            String sql = "SELECT Producto.idProducto,Producto.precioCompra,Producto.Talle,Producto.Descripcion,Producto.PrecioU,deposito.idDeposito,deposito.Stock FROM Producto,deposito WHERE Producto.Deposito_idDeposito = deposito.idDeposito"+Filtrado;
             ResultSet fila = con.getConsulta().executeQuery(sql);
             
             while(fila.next()){
@@ -83,7 +83,7 @@ public class DepositoDAO {
             }
         }
         catch(SQLException e){
-            System.out.println("Error al leer datos de la tabla");
+            System.out.println(e);
         }        
         return lista;
     }

@@ -47,10 +47,12 @@ public class UsuarioDAO {
     public Usuario buscar(){
         try{
           
-            String sql = "SELECT * FROM usuarios WHERE usuario='"+usuario.getUsuario()+"'"+ " and " + "contraseña='"+usuario.getContraseña()+"'";
+            String sql = "SELECT * FROM usuarios as u, rol as r WHERE usuario='"+usuario.getUsuario()+"'"+ " and " + "contraseña='"+usuario.getContraseña()+"' and u.Rol_idRol=r.idRol";
             ResultSet fila = con.getConsulta().executeQuery(sql);
             if(fila.next()){
                 Usuario tmp = new Usuario();
+                Rol r = new Rol(fila.getInt("idRol"),fila.getString("Descripcion"));
+                tmp.setRol(r);
                 tmp.setUsuario(fila.getString("usuario"));
                 tmp.setContraseña(fila.getString("contraseña"));
                 

@@ -14,6 +14,7 @@ import modelo.Deposito;
 import modelo.DepositoDAO;
 import modelo.Producto;
 import modelo.ProductoDAO;
+import modelo.Usuario;
 import vista.GestionarProductos;
 
 /**
@@ -24,8 +25,10 @@ public class ControladorProductos implements ActionListener{
     private Conexion con;
     private Producto producto;
     private GestionarProductos GestionarProductos;
+    private  Usuario _usuarioAutenticado;
     
-    public ControladorProductos(Conexion con){
+    public ControladorProductos(Conexion con, Usuario usuarioAutenticado){
+        this._usuarioAutenticado=usuarioAutenticado;
         this.con=con;
         producto = new Producto();
         GestionarProductos = new GestionarProductos(null,true);

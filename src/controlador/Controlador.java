@@ -5,9 +5,11 @@
  */
 package controlador;
 
+import seguridad.MD5;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import modelo.*;
 import vista.*;
@@ -25,6 +27,7 @@ public class Controlador implements ActionListener {
     private Principal principal;
     private GestionarEmpleado GestionarEmpleado;
     private GestionarStock gestionarstock;
+    private Usuario _usuarioAutenticado;
 
     public Controlador(Conexion con) {//
         this.con = con;
@@ -48,10 +51,10 @@ public class Controlador implements ActionListener {
             
             if (autenticacion_vista.getUsuario().equals("administrador")) {
 
-                
-                autenticacion = new Autenticacion(1);
-
-                //CUANDO REGISTREMOS UN ADMINISTRADOR COMO EMPLEADO PODRA VENDER
+               //CUANDO REGISTREMOS UN ADMINISTRADOR COMO EMPLEADO PODRA VENDER
+              
+                _usuarioAutenticado = new Usuario();
+                _usuarioAutenticado.setUsuario("123");
                 autenticacion_vista.dispose();
                 principal.setControlador(this);
                 principal.ejecutar();
@@ -61,20 +64,16 @@ public class Controlador implements ActionListener {
                 /*
                 
                 */
-                Empleado emp = new Empleado();
-                emp.setDni(Integer.parseInt(autenticacion_vista.getUsuario()));
-                EmpleadoDAO empDAO = new EmpleadoDAO(emp, con);
                 
                 Usuario u = new Usuario(autenticacion_vista.getUsuario(),MD5.getMd5(autenticacion_vista.getContraseña()));
                 UsuarioDAO ud = new UsuarioDAO(u, con);
+                _usuarioAutenticado = ud.buscar();
                 //buscamos un usuario y si lo encontramos con el usuario y contraseña, damos permiso segun su rol
                 
-                if (!autenticacion_vista.getUsuario().equals("administrador")) {
                     //if (empDAO.buscar() != null) {
-                    if (ud.buscar() != null) {
+                    if (_usuarioAutenticado != null) {
                         try {
-                            autenticacion = new Autenticacion(Integer.parseInt(autenticacion_vista.getUsuario()));
-                            autenticacion_vista.dispose();
+                           autenticacion_vista.dispose();
                             principal.setControlador(this);
                             principal.ejecutar();
                         } catch (NumberFormatException j) {
@@ -84,41 +83,44 @@ public class Controlador implements ActionListener {
                     } else {
                         JOptionPane.showMessageDialog(null, "Empleado inexistente");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Por favor, Ingrese Dni");
-                }
+                
 
             }
         }
         if (e.getActionCommand().equals(principal.EMPLEADOS)) {
             //AQUI VAMOS A CORROBORAR QUE AUTENTICACION.DNI SEA IGUAL AL DEL ADMINISTRADOR
-            ControladorEmpleado ControladorEmpleado = new ControladorEmpleado(con);
+            //if(_usuarioAutenticado.getDescripcionRol().equalsIgnoreCase("Administrador")){
+             
+            ControladorEmpleado ControladorEmpleado = new ControladorEmpleado(con,_usuarioAutenticado);
             principal.setVisible(false);
             ControladorEmpleado.ejecutar();
             principal.setVisible(true);
+            //}else JOptionPane.showMessageDialog(null, "DEBES SER ADMINISTRADOR");
             
         }
 
         if (e.getActionCommand().equals(principal.STOCK)) {
-            ControladorStock controladorstock = new ControladorStock(con);
+            
+            
+            ControladorStock controladorstock = new ControladorStock(con,_usuarioAutenticado);
             principal.setVisible(false);
             controladorstock.ejecutar();
             principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.PRODUCTOS)) {
-            ControladorProductos controladorproductos = new ControladorProductos(con);
+            ControladorProductos controladorproductos = new ControladorProductos(con,_usuarioAutenticado);
             principal.setVisible(false);
             controladorproductos.ejecutar();
             principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.VENTAS)) {
-            ControladorVentas controladorventas = new ControladorVentas(con, autenticacion);
+            ControladorVentas controladorventas = new ControladorVentas(con,_usuarioAutenticado);
             principal.setVisible(false);
             controladorventas.ejecutar();
             principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.COMPRAS)) {
-            ControladorPedidos controladorpedidos = new ControladorPedidos(con, autenticacion);
+            ControladorPedidos controladorpedidos = new ControladorPedidos(con, _usuarioAutenticado);
             principal.setVisible(false);
             controladorpedidos.ejecutar();
             principal.setVisible(true);
@@ -130,19 +132,19 @@ public class Controlador implements ActionListener {
             principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.LISTAVENTAS)) {
-            ControladorVentas controladorventas = new ControladorVentas(con, autenticacion);
+            ControladorVentas controladorventas = new ControladorVentas(con, _usuarioAutenticado);
             principal.setVisible(false);
             controladorventas.listarVentas();
             principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.LISTAPENDIENTES)) {
-            ControladorPedidos controladorpedidos = new ControladorPedidos(con, autenticacion);
+            ControladorPedidos controladorpedidos = new ControladorPedidos(con,_usuarioAutenticado);
             principal.setVisible(false);
             controladorpedidos.listarPedidosPendientes();
             principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.LISTAFINALIZADAS)) {
-            ControladorPedidos controladorpedidos = new ControladorPedidos(con, autenticacion);
+            ControladorPedidos controladorpedidos = new ControladorPedidos(con,_usuarioAutenticado);
             principal.setVisible(false);
             controladorpedidos.listarPedidosFinalizados();
             principal.setVisible(true);

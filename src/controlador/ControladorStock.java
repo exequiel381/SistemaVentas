@@ -12,6 +12,7 @@ import modelo.Conexion;
 import modelo.Deposito;
 import modelo.DepositoDAO;
 import modelo.Producto;
+import modelo.Usuario;
 import vista.GestionarStock;
 
 /**
@@ -22,10 +23,12 @@ public class ControladorStock implements ActionListener{
     
     private Conexion con;
     private GestionarStock gestionarstock;
+    private  Usuario _usuarioAutenticado;
     
     
-    public ControladorStock(Conexion con){
+    public ControladorStock(Conexion con, Usuario usuarioAutenticado){
         gestionarstock = new GestionarStock(null,true);
+        this._usuarioAutenticado=usuarioAutenticado;
         this.con=con;
     }
     
@@ -101,8 +104,6 @@ public class ControladorStock implements ActionListener{
                 lista.add(linea);
                
             }
-            
-            
             
             gestionarstock.setTotalStock(TotalStock);
             gestionarstock.cargarLista(lista);

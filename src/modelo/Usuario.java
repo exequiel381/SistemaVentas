@@ -14,6 +14,11 @@ public class Usuario {
     private String contraseña;
     private Rol rol;
 
+    
+    public String getDescripcionRol(){
+        return  rol.getDescripcion();
+    }
+    
     public Rol getRol() {
         return rol;
     }

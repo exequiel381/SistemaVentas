@@ -23,7 +23,7 @@ public class ControladorVentas implements ActionListener {
     private Conexion con;
     private RealizarVenta VentanaVentas;
     private ArrayList<LineaDeVenta> LineaVenta = new ArrayList<LineaDeVenta>();
-    private Autenticacion auntenticacion;
+    private Usuario _usuarioAutenticado;
     private double Subtotal;
     private VentaDAO aux;
     private int idVenta;
@@ -31,7 +31,7 @@ public class ControladorVentas implements ActionListener {
     private Venta venta;
     private double Descuento = 0;
 
-    public ControladorVentas(Conexion con, Autenticacion autenticacion) {
+    public ControladorVentas(Conexion con, Usuario autenticacion) {
         this.con = con;
         VentanaVentas = new RealizarVenta(null, true);
         listaVentas = new ListaVentas(null, true);
@@ -39,7 +39,7 @@ public class ControladorVentas implements ActionListener {
         //Para poder asignar el valor de la ultima venta
         this.aux = new VentaDAO(con);
         this.idVenta = aux.UltimaVenta();
-        this.auntenticacion = autenticacion;
+        this._usuarioAutenticado = autenticacion;
     }
 
     public void ejecutar() {
@@ -147,7 +147,7 @@ public class ControladorVentas implements ActionListener {
             PagoVenta pv;
 
             Empleado emp = new Empleado();
-            emp.setDni(auntenticacion.getDni());
+            emp.setDni(Integer.parseInt(_usuarioAutenticado.getUsuario()));
             Fecha fecha = new Fecha();
 
             venta.setIdVenta(idVenta);

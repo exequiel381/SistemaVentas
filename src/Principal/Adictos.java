@@ -9,7 +9,7 @@ import controlador.Controlador;
 import javax.swing.JOptionPane;
 import modelo.Autenticacion;
 import modelo.Conexion;
-import modelo.MD5;
+import seguridad.MD5;
 import vista.AutenticacionVista;
 
 /**

@@ -10,6 +10,7 @@ import controlador.ControladorEmpleado;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -34,17 +35,17 @@ public class GestionarEmpleado extends javax.swing.JDialog {
             try {
             initComponents();
             this.setLocationRelativeTo(null);
-
+            /*
             //Le damos el formato de fecha al texto
             MaskFormatter formato1 = new MaskFormatter("HHHH-HH-HH"); // 4 cifras
             formato1.setValidCharacters("-0123456789");
             formato1.install(txtFechaIngreso);
-
+            //Formato para texto
             MaskFormatter formato2 = new MaskFormatter("HHHH*HH*HH"); // 4 cifras
             formato2.setValidCharacters("-0123456789");
             formato2.install(txtFechaSalida);
-
-        } catch (ParseException ex) {
+            */
+        } catch (Exception ex) {
             Logger.getLogger(ListaVentas.class.getName()).log(Level.SEVERE, null, ex);
         }
             this.setTitle("Gestion de Empleados");
@@ -181,18 +182,36 @@ public class GestionarEmpleado extends javax.swing.JDialog {
     }
 
     
-    public void setFingreso(String Fingreso){
-        txtFechaIngreso.setText(Fingreso);
+    public void setFingreso(String Fingreso) throws ParseException{
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); 
+        Date date = formato.parse(Fingreso);
+        txtFechaIngreso.setDate(date);
+        System.out.println(this.getFingreso());
     }
     public String getFingreso(){
-        return txtFechaIngreso.getText();
+        Date date = txtFechaIngreso.getDate();
+       
+        long d = date.getTime();
+        java.sql.Date fecha = new java.sql.Date(d);
+        String f = fecha.toString();
+       
+        return f;
     }
     
-    public void setFegreso(String Fingreso){
-        txtFechaSalida.setText(Fingreso);
+    public void setFegreso(String Fegreso) throws ParseException{
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); 
+        Date date = formato.parse(Fegreso);
+        txtFechaIngreso.setDate(date);
+        
     }
     public String getFegreso(){
-        return txtFechaSalida.getText();
+        Date date = txtFechaSalida.getDate();
+       
+        long d = date.getTime();
+        java.sql.Date fecha = new java.sql.Date(d);
+        String f = fecha.toString();
+       
+        return f;
     }
     
     public Boolean getRol(){
@@ -205,8 +224,6 @@ public class GestionarEmpleado extends javax.swing.JDialog {
         txtCuil.setText(null);
         txtDireccion.setText(null);
         txtDni.setText(null);
-        txtFechaIngreso.setText(null);
-        txtFechaSalida.setText(null);
         txtLocalidadCP.setText(null);
         txtNombre.setText(null);
         txtSueldo.setText(null);
@@ -268,11 +285,11 @@ public class GestionarEmpleado extends javax.swing.JDialog {
         txtLocalidadCP = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         txtCuil = new javax.swing.JTextField();
-        txtFechaIngreso = new javax.swing.JFormattedTextField();
-        txtFechaSalida = new javax.swing.JFormattedTextField();
         checkAdmin = new javax.swing.JCheckBox();
         jLabel21 = new javax.swing.JLabel();
         txtContraseña = new javax.swing.JTextField();
+        txtFechaIngreso = new com.toedter.calendar.JDateChooser();
+        txtFechaSalida = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -505,18 +522,17 @@ public class GestionarEmpleado extends javax.swing.JDialog {
                                                 .addGap(36, 36, 36)
                                                 .addComponent(jLabel11)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(txtFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(103, 103, 103)))
+                                                .addComponent(txtFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(89, 89, 89)))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addGroup(layout.createSequentialGroup()
                                                 .addGap(92, 92, 92)
-                                                .addComponent(jLabel20)
-                                                .addGap(41, 41, 41))
+                                                .addComponent(jLabel20))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel12)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(57, 57, 57)))))))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(52, 52, 52)))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -566,27 +582,31 @@ public class GestionarEmpleado extends javax.swing.JDialog {
                             .addComponent(cbxSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jLabel14)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel9)
-                        .addComponent(txtSueldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel14)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9)
+                                .addComponent(txtSueldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel11)
+                                        .addComponent(txtAntiguedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel10))
+                                    .addComponent(txtFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel19))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12)
                             .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel20))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(txtFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtAntiguedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel19)))
+                        .addComponent(jLabel20)))
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
@@ -690,8 +710,8 @@ this.dispose();        // TODO add your handling code here:
     private javax.swing.JTextField txtCuil;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtDni;
-    private javax.swing.JFormattedTextField txtFechaIngreso;
-    private javax.swing.JFormattedTextField txtFechaSalida;
+    private com.toedter.calendar.JDateChooser txtFechaIngreso;
+    private com.toedter.calendar.JDateChooser txtFechaSalida;
     private javax.swing.JTextField txtLocalidad;
     private javax.swing.JTextField txtLocalidadCP;
     private javax.swing.JTextField txtNombre;
