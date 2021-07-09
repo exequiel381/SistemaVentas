@@ -10,6 +10,7 @@ import controlador.ControladorVentas;
 import java.awt.Color;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
@@ -35,23 +36,18 @@ public class ListaVentas extends javax.swing.JDialog {
 
     public ListaVentas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        try {
-            initComponents();
-            this.setLocationRelativeTo(null);
-            
-
-            //Le damos el formato de fecha al texto
-            MaskFormatter formato1 = new MaskFormatter("HHHH-HH-HH"); // 4 cifras
-            formato1.setValidCharacters("-0123456789");
-            formato1.install(txtDesde);
-
-            MaskFormatter formato2 = new MaskFormatter("HHHH-HH-HH"); // 4 cifras
-            formato2.setValidCharacters("-0123456789");
-            formato2.install(txtHasta);
-
-        } catch (ParseException ex) {
-            Logger.getLogger(ListaVentas.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        initComponents();
+        this.setLocationRelativeTo(null);
+        
+        
+//            //Le damos el formato de fecha al texto
+//            MaskFormatter formato1 = new MaskFormatter("HHHH-HH-HH"); // 4 cifras
+//            formato1.setValidCharacters("-0123456789");
+//            formato1.install(txtDesde);
+//
+//            MaskFormatter formato2 = new MaskFormatter("HHHH-HH-HH"); // 4 cifras
+//            formato2.setValidCharacters("-0123456789");
+//            formato2.install(txtHasta);
     }
 
     public void ejecutar() {
@@ -172,15 +168,24 @@ public class ListaVentas extends javax.swing.JDialog {
     }
 
     public String getDesde() {
-        return txtDesde.getText();
+        Date date = txtDesde.getDate();
+       
+        long d = date.getTime();
+        java.sql.Date fecha = new java.sql.Date(d);
+        String f = fecha.toString();
+       
+        return f;
     }
 
-    public void setHasta(String Hasta) {
-        txtHasta.setText(Hasta);
-    }
 
     public String getHasta() {
-        return txtHasta.getText();
+        Date date = txtHasta.getDate();
+       
+        long d = date.getTime();
+        java.sql.Date fecha = new java.sql.Date(d);
+        String f = fecha.toString();
+       
+        return f;
     }
     
     
@@ -211,12 +216,12 @@ public class ListaVentas extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         btnFiltrar = new javax.swing.JButton();
         btnVerDetalle = new javax.swing.JButton();
-        txtDesde = new javax.swing.JFormattedTextField();
-        txtHasta = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         txtIdVenta = new javax.swing.JTextField();
         txtTotaVentas = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        txtDesde = new com.toedter.calendar.JDateChooser();
+        txtHasta = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -362,7 +367,7 @@ public class ListaVentas extends javax.swing.JDialog {
                                                 .addGap(56, 56, 56)
                                                 .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jLabel4))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 373, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel5)
                                         .addGap(18, 18, 18)
                                         .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -378,22 +383,23 @@ public class ListaVentas extends javax.swing.JDialog {
                                                     .addComponent(txtFactura, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(jLabel10)
-                                                .addGap(21, 21, 21)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                     .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGap(18, 18, 18)
                                                         .addComponent(jLabel7))
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addGap(10, 10, 10)
-                                                        .addComponent(jLabel8)))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel9)
-                                                    .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addComponent(jLabel3))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel11)
+                                                    .addComponent(jLabel8)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addGap(323, 323, 323)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel9)
+                                                .addGap(36, 36, 36)
+                                                .addComponent(jLabel11))
+                                            .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -423,14 +429,16 @@ public class ListaVentas extends javax.swing.JDialog {
                             .addComponent(txtTotaVentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtIdVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10)
-                            .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(btnFiltrar))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtIdVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel7)
+                                    .addComponent(btnFiltrar))
+                                .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -499,9 +507,9 @@ public class ListaVentas extends javax.swing.JDialog {
     private javax.swing.JTable tablaDetalle;
     private javax.swing.JTable tablaVentas;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JFormattedTextField txtDesde;
+    private com.toedter.calendar.JDateChooser txtDesde;
     private javax.swing.JTextField txtFactura;
-    private javax.swing.JFormattedTextField txtHasta;
+    private com.toedter.calendar.JDateChooser txtHasta;
     private javax.swing.JTextField txtIdVenta;
     private javax.swing.JTextField txtProducto;
     private javax.swing.JTextField txtSubtotal;
