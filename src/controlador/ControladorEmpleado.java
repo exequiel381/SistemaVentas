@@ -47,32 +47,38 @@ public class ControladorEmpleado implements ActionListener {
 
         if (e.getActionCommand().equals(GestionarEmpleado.AGREGAR_EMPLEADO)) {
 
-            localidad = new Localidad();
-            localidad.setCodigopostal(Integer.parseInt(GestionarEmpleado.getLocalidadCP()));
-            localidad.setNombre(GestionarEmpleado.getLocalidad());
+            if (JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregarlo ?") == 0) {
+                localidad = new Localidad();
+                localidad.setCodigopostal(Integer.parseInt(GestionarEmpleado.getLocalidadCP()));
+                localidad.setNombre(GestionarEmpleado.getLocalidad());
 
-            Empleado empleado = new Empleado(GestionarEmpleado.getDni(), GestionarEmpleado.getNombre(), GestionarEmpleado.getApellido(), GestionarEmpleado.getTelefono(), GestionarEmpleado.getDireccion(),
-                     GestionarEmpleado.getFingreso(), GestionarEmpleado.getFegreso(), GestionarEmpleado.getCuil(),
-                    GestionarEmpleado.getSueldo(), GestionarEmpleado.getAntiguedad(), localidad);
+                Empleado empleado = new Empleado(GestionarEmpleado.getDni(), GestionarEmpleado.getNombre(), GestionarEmpleado.getApellido(), GestionarEmpleado.getTelefono(), GestionarEmpleado.getDireccion(),
+                        GestionarEmpleado.getFingreso(), GestionarEmpleado.getFegreso(), GestionarEmpleado.getCuil(),
+                        GestionarEmpleado.getSueldo(), GestionarEmpleado.getAntiguedad(), localidad);
 
-            EmpleadoDAO empleadoDAO = new EmpleadoDAO(empleado, con);
-            empleadoDAO.AgregarEmpleado();
+                EmpleadoDAO empleadoDAO = new EmpleadoDAO(empleado, con);
+                empleadoDAO.AgregarEmpleado();
 
-            //Con el rol podemos hacer que lo seleccione en un combo box que carguemos de la base 
-            Rol r = new Rol(2, "empleado");
-            if (GestionarEmpleado.getRol().equals("admin")) {
-                r = new Rol(1, "admin");
+                //Con el rol podemos hacer que lo seleccione en un combo box que carguemos de la base 
+                Rol r = new Rol(2, "empleado");
+                if (GestionarEmpleado.getRol().equals("admin")) {
+                    r = new Rol(1, "admin");
+                }
+                Usuario usuarioNuevo = new Usuario("" + empleado.getDni(), GestionarEmpleado.getContraseña());
+                usuarioNuevo.setRol(r);
+                UsuarioDAO usuarioDAO = new UsuarioDAO(usuarioNuevo, con);
+                usuarioDAO.AgregarUsuario();
+                this.RellenarTablas(empleadoDAO);
             }
-            Usuario usuarioNuevo = new Usuario("" + empleado.getDni(), GestionarEmpleado.getContraseña());
-            usuarioNuevo.setRol(r);
-            UsuarioDAO usuarioDAO = new UsuarioDAO(usuarioNuevo, con);
-            usuarioDAO.AgregarUsuario();
-            this.RellenarTablas(empleadoDAO);
+            
+
 
         }
 
         if (e.getActionCommand().equals(GestionarEmpleado.BUSCAR)) {
 
+            
+            
             GestionarEmpleado.BloquearDni();
             
             try {
@@ -121,10 +127,13 @@ public class ControladorEmpleado implements ActionListener {
                 JOptionPane.showMessageDialog(null, "En controlador empleado, No se encotro el empleado");
                 Logger.getLogger(ControladorEmpleado.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
 
         if (e.getActionCommand().equals(GestionarEmpleado.MODIFICAR_EMPLEADO)) {
 
+            if (JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificarlo?") == 0) {
+            
             localidad = new Localidad();
             localidad.setIdLocalidad(Integer.parseInt(GestionarEmpleado.getLocalidadCP()));
             localidad.setNombre(GestionarEmpleado.getLocalidad());
@@ -148,10 +157,15 @@ public class ControladorEmpleado implements ActionListener {
             
 
             this.RellenarTablas(empleadoDAO);
-
+            
+            }
+            
+            
         }
 
         if (e.getActionCommand().equals(GestionarEmpleado.ELIMINAR_EMPLEADO)) {
+            
+            if (JOptionPane.showConfirmDialog(null, "Esta seguro que desea eliminarlo ?") == 0) {
             Empleado empleado = new Empleado();
             try {
                 int dni = Integer.parseInt(GestionarEmpleado.getBusqueda());
@@ -166,6 +180,8 @@ public class ControladorEmpleado implements ActionListener {
 
             this.RellenarTablas(empleadoDAO);
 
+            }
+            
         }
 
     }

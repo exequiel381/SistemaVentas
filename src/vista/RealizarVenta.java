@@ -159,7 +159,7 @@ public class RealizarVenta extends javax.swing.JDialog{
         jButton1 = new javax.swing.JButton();
         CheckTarjeta = new javax.swing.JCheckBox();
         spnCantidadAgregar = new javax.swing.JSpinner();
-        cbxProducto = new javax.swing.JComboBox<String>();
+        cbxProducto = new javax.swing.JComboBox<>();
         btnDescuento = new javax.swing.JButton();
 
         jMenuItem5.setText("jMenuItem5");
