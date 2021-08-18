@@ -9,11 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import modelo.Conexion;
+import Datos.Conexion;
 import modelo.Deposito;
-import modelo.DepositoDAO;
+import Datos.DepositoDAO;
 import modelo.Producto;
-import modelo.ProductoDAO;
+import Datos.ProductoDAO;
 import modelo.Usuario;
 import vista.GestionarProductos;
 

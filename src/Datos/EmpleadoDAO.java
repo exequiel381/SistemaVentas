@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package Datos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import modelo.Empleado;
+import modelo.Localidad;
+import modelo.Rol;
+import modelo.Usuario;
 
 /**
  *
@@ -27,12 +31,15 @@ public class EmpleadoDAO {
     
    
     public void AgregarEmpleado(){
-        
+        int idLocalidad=0;
         try{
+           String sql = "select * from localidad where Nombre='"+empleado.getLocalidad().getNombre()+"'and codigopostal='"+empleado.getLocalidad().getCodigopostal()+"'";
+           ResultSet fila = con.getConsulta().executeQuery(sql);
+           while(fila.next()){
+               idLocalidad = fila.getInt("idLocalidad");
+           }
             
-            if(empleado.getSeccion().equalsIgnoreCase("ventas")) idSeccion=1;
-            
-           String sql = "INSERT INTO empleado SET DNI='"+empleado.getDni()+"', "
+                sql = "INSERT INTO empleado SET DNI='"+empleado.getDni()+"', "
                     + "Nombre='"+empleado.getNombre()+ "', "
                     + "Apellido='"+ empleado.getApellido()+ "', "
                     + "Telefono='"+empleado.getTelefono()+"', "
@@ -42,15 +49,14 @@ public class EmpleadoDAO {
                     + "CUIL='"+empleado.getCuil()+"', "
                     + "Sueldo='"+empleado.getSueldo()+"', "
                     + "Antiguedad='"+empleado.getAntiguedad()+"', "
-                    + "Localidad_idLocalidad='"+empleado.getLocalidad().getIdLocalidad()+"', "
-                    + "Seccion_idSeccion='"+idSeccion+"'";
+                    + "Localidad_idLocalidad='"+idLocalidad+"'";
              
            
             con.getConsulta().execute(sql);
             JOptionPane.showMessageDialog(null,"Empleado agregado");
         }
         catch(SQLException e){
-           
+            System.out.println(e);
             JOptionPane.showMessageDialog(null,"1- Error al agregar datos a la tabla\n2-Asegurese de rellenar todos los campos\n3- Solo puede dejar vacia la fecha salida\n4-El formato de fecha debe ser Año-Mes-Dia");
         }
     }
@@ -88,13 +94,16 @@ public class EmpleadoDAO {
     }
      
      
-     public Empleado buscar(){
+     public Usuario buscar(){
         try{
           
-            String sql = "SELECT * FROM empleado WHERE dni='"+empleado.getDni()+"'"+ " or " + "Apellido='"+empleado.getApellido()+"'";
+            String sql = "SELECT * FROM empleado as e,usuarios as u,rol as r WHERE e.dni=u.Empleado_DNI and u.Rol_idRol = r.idRol and (e.dni='"+empleado.getDni()+"'"+ " or " + "e.Apellido='"+empleado.getApellido()+"')";
             ResultSet fila = con.getConsulta().executeQuery(sql);
             if(fila.next()){
                 Empleado tmp = new Empleado();
+                tmp.setLocalidad(new Localidad());
+                Usuario u = new Usuario();
+                
                 tmp.setDni( fila.getInt("dni") );
                 tmp.setNombre(fila.getString("nombre"));
                 tmp.setApellido(fila.getString("apellido"));
@@ -106,14 +115,18 @@ public class EmpleadoDAO {
                 tmp.setCuil(fila.getString("Cuil"));
                 tmp.setSueldo(fila.getInt("Sueldo"));
                 tmp.setAntiguedad(fila.getInt("Antiguedad"));
-                tmp.localidad.setNombre(fila.getString("Nombre"));
+                    
+                u.setEmpleado(tmp);
+                u.setUsuario(fila.getString("usuario"));
+                u.setRol(new Rol(fila.getInt("idRol"),fila.getString("Descripcion")));
+            
                 
-                return tmp;
+                return u;
             }
             
         }
         catch(SQLException e){
-            System.out.println("Error al buscar datos de la tabla");
+            System.out.println("Error al buscar datos de la tabla"+ e);
         }        
         return null;
     }
@@ -121,7 +134,7 @@ public class EmpleadoDAO {
      public void modificar(String Filtro ){
         try{
             
-             if(empleado.getSeccion().equalsIgnoreCase("ventas")) idSeccion=1;
+            
             
             String sql = "UPDATE empleado SET "
                     + "DNI='"+empleado.getDni()+"',"
@@ -134,8 +147,7 @@ public class EmpleadoDAO {
                     + "CUIL='"+empleado.getCuil()+"',"
                     + "Sueldo='"+empleado.getSueldo()+"',"
                     + "Antiguedad='"+empleado.getAntiguedad()+"',"
-                    + "Localidad_idLocalidad='"+empleado.getLocalidad().getIdLocalidad()+"',"
-                    + "Seccion_idSeccion='"+idSeccion+"'"
+                    + "Localidad_idLocalidad='"+empleado.getLocalidad().getIdLocalidad()+"'"
                     + " WHERE DNI='"+Filtro+"'"+" or "+"Apellido='"+Filtro+"'";
                     
             con.getConsulta().execute(sql);
@@ -152,6 +164,8 @@ public class EmpleadoDAO {
         try{
             String sql = "DELETE FROM empleado WHERE dni='"+empleado.getDni()+"'";
             con.getConsulta().execute(sql);
+            sql = "DELETE FROM usuarios WHERE usuario='"+empleado.getDni()+"'";
+            con.getConsulta().execute(sql);
             JOptionPane.showMessageDialog(null,"Empleado Eliminado");
         }
         catch(SQLException e){
@@ -160,6 +174,26 @@ public class EmpleadoDAO {
             System.out.println(empleado.getDni());
             System.out.println(empleado.getApellido());
         }        
+    }
+    
+    public ArrayList<Rol> ObtenerRoles(){
+        ArrayList<Rol> lista = new ArrayList<Rol>();
+        try{
+            String sql = "SELECT * FROM rol";
+            ResultSet fila = con.getConsulta().executeQuery(sql);
+            while(fila.next()){
+                Rol tmp = new Rol(fila.getInt("idRol"),fila.getString("Descripcion"));
+                lista.add(tmp);
+            }
+            
+            
+        }
+        catch(SQLException e){
+            System.out.println("Error al leer Roles");
+       
+         
+        }   
+        return lista;
     }
     
     

@@ -5,6 +5,10 @@
  */
 package controlador;
 
+import Datos.Conexion;
+import Datos.DepositoDAO;
+import Datos.ProductoDAO;
+import Datos.VentaDAO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

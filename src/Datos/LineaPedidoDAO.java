@@ -3,33 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package Datos;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.*;
+import modelo.LineaPedido;
 
-/**
- *
- * @author FIume
- */
-public class LineaDeVentaDAO {
-    private LineaDeVenta linea;
+public class LineaPedidoDAO {
+    
+    private LineaPedido linea;
     private Conexion con;
-
-    public LineaDeVentaDAO(LineaDeVenta linea, Conexion con) {
-        this.linea = linea;
-        this.con = con;
+    
+    public LineaPedidoDAO(LineaPedido linea,Conexion con){
+        this.con=con;
+        this.linea=linea;
     }
     
-    public void modificarLineaVenta(int idVenta){
+    public void moficarDetalle(int idPedido){
          try {
-            String sql = "UPDATE lineaVenta SET "
+            String sql = "UPDATE detalle_pedido SET "
                              +"cantidad='"+linea.getCantidad()+"', "
-                             +"subtotal='"+linea.getSubTotal()+"'"
-                             
-                    + "WHERE Venta_idVenta='"+idVenta+"' "+ "and idLineaVenta='"+linea.getIdLineaVenta()+"'";
+                             +"subtotal='"+linea.getSubTotal()+"', "
+                             +"precioUnitario='"+linea.getPrecio_unitario()+"' "
+                    + "WHERE Pedido_idPedido='"+idPedido+"' "+ "and Producto_idProducto='"+linea.getProducto().getCodigo()+"'";
             
             
             con.getConsulta().execute(sql);
@@ -40,10 +39,9 @@ public class LineaDeVentaDAO {
             JOptionPane.showMessageDialog(null,"NO SE MODIFICO EL DETALLE");
         }
     }
-    
-    public void borrarLinea(int idVenta){
+    public void borrarLinea(int idPedido){
         try{
-            String sql = "DELETE FROM lineaVenta WHERE Venta_idVenta='"+idVenta+"' "+ "and idLineaVenta='"+linea.getIdLineaVenta()+"'";
+            String sql = "DELETE FROM detalle_Pedido WHERE pedido_idPedido='"+idPedido+"' and Producto_idProducto='"+linea.getProducto().getCodigo()+"'";
             con.getConsulta().execute(sql);
             JOptionPane.showMessageDialog(null,"SE BORRO EL DETALLE");
         }

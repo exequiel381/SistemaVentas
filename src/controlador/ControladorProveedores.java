@@ -7,9 +7,9 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import modelo.Conexion;
+import Datos.Conexion;
 import modelo.Proveedor;
-import modelo.ProveedorDAO;
+import Datos.ProveedorDAO;
 import vista.RegistrarProveedor;
 
 

@@ -1,5 +1,5 @@
 
-package modelo;
+package Datos;
 
 import java.sql.Connection;
 import java.sql.Statement;

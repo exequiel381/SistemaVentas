@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package Datos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import modelo.Rol;
+import modelo.Usuario;
+import seguridad.MD5;
 
 /**
  *
@@ -65,5 +68,31 @@ public class UsuarioDAO {
             System.out.println("Error al buscar datos de la tabla USUARIOS");
         }        
         return null;
+    }
+    
+    
+    public void ModificarUsuario(int dniEmpleado){
+        try{
+            
+             String sql = "UPDATE usuarios SET "
+                    + "contraseña='"+MD5.getMd5(usuario.getContraseña())+"',"
+                    + "Rol_idRol='"+usuario.getRol().getIdRol()+ "' ,"
+                    + " WHERE usuario='"+dniEmpleado+"'";
+            
+            if(usuario.getContraseña().equals("")){
+                sql = "UPDATE usuarios SET "
+                 + "Rol_idRol='"+usuario.getRol().getIdRol()+ "'"
+                 + " WHERE usuario='"+dniEmpleado+"'";
+            }
+            
+           
+                    
+            con.getConsulta().execute(sql);
+            
+        }
+        catch(SQLException e){
+            System.out.println("Error al modificar datos a la tabla usuarios "
+                    + e);
+        }        
     }
 }

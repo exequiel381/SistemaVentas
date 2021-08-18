@@ -12,17 +12,40 @@ package modelo;
 public class Localidad {
     
     private String Nombre;
+    private String Provincia;
     private int idLocalidad;
+    private int codigopostal;
     
     public Localidad(){
         
     }
     
-    public Localidad(int idLocalidad,String nombre){
+    public Localidad(int idLocalidad,String nombre, String Provincia,int codigopostal){
         this.idLocalidad=idLocalidad;
         this.Nombre=nombre;
+        this.Provincia = Provincia;
+        this.codigopostal = codigopostal;
     }
 
+    public int getCodigopostal() {
+        return codigopostal;
+    }
+
+    public void setCodigopostal(int codigopostal) {
+        this.codigopostal = codigopostal;
+    }
+
+    
+    
+    public String getProvincia() {
+        return Provincia;
+    }
+
+    public void setProvincia(String Provincia) {
+        this.Provincia = Provincia;
+    }
+
+    
     public String getNombre() {
         return Nombre;
     }

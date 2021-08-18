@@ -17,20 +17,20 @@ public class Empleado extends Persona {
     private String Cuil;
     private int Sueldo;
     private int Antiguedad;
-    private String Seccion;
+  
     
     
     public Empleado(){
         
     }
-    public Empleado(int dni, String nombre, String apellido,String telefono,String Direccion,String fecha_ingreso,String fecha_salida,String Cuil, int sueldo, int Antiguedad,String Seccion,Localidad localidad){
+    public Empleado(int dni, String nombre, String apellido,String telefono,String Direccion,String fecha_ingreso,String fecha_salida,String Cuil, int sueldo, int Antiguedad,Localidad localidad){
         super(dni,nombre,apellido,telefono,Direccion,localidad);
         this.Cuil=Cuil;
         this.Sueldo=sueldo;
         this.fecha_ingreso=fecha_ingreso;
         this.fecha_salida=fecha_salida;
         this.Antiguedad=Antiguedad;
-        this.Seccion=Seccion;
+        
     }
 
     public String getFecha_ingreso() {
@@ -49,13 +49,6 @@ public class Empleado extends Persona {
         this.fecha_salida = fecha_salida;
     }
 
-    public String getSeccion() {
-        return Seccion;
-    }
-
-    public void setSeccion(String Sector) {
-        this.Seccion = Seccion;
-    }
     
 
     public String getCuil() {

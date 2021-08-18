@@ -8,7 +8,7 @@ package Principal;
 import controlador.Controlador;
 import javax.swing.JOptionPane;
 import modelo.Autenticacion;
-import modelo.Conexion;
+import Datos.Conexion;
 import seguridad.MD5;
 import vista.AutenticacionVista;
 

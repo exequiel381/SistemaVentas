@@ -13,6 +13,17 @@ public class Usuario {
     private String usuario;
     private String contraseña;
     private Rol rol;
+    private Empleado _empleado;
+
+    public Empleado getEmpleado() {
+        return _empleado;
+    }
+
+    public void setEmpleado(Empleado _empleado) {
+        this._empleado = _empleado;
+    }
+
+   
 
     
     public String getDescripcionRol(){

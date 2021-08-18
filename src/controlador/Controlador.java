@@ -5,6 +5,8 @@
  */
 package controlador;
 
+import Datos.Conexion;
+import Datos.UsuarioDAO;
 import seguridad.MD5;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,23 +49,6 @@ public class Controlador implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(autenticacion_vista.BTN_INGRESAR)) {
 
-            //primeros tenemos una clave de acceso rapido
-            
-            if (autenticacion_vista.getUsuario().equals("administrador")) {
-
-               //CUANDO REGISTREMOS UN ADMINISTRADOR COMO EMPLEADO PODRA VENDER
-              
-                _usuarioAutenticado = new Usuario();
-                _usuarioAutenticado.setUsuario("123");
-                autenticacion_vista.dispose();
-                principal.setControlador(this);
-                principal.ejecutar();
-                
-            } else {
-                //si no lee la de acceso rapido , con el dni del empleado lo buscamos
-                /*
-                
-                */
                 
                 Usuario u = new Usuario(autenticacion_vista.getUsuario(),MD5.getMd5(autenticacion_vista.getContraseña()));
                 UsuarioDAO ud = new UsuarioDAO(u, con);
@@ -71,7 +56,7 @@ public class Controlador implements ActionListener {
                 //buscamos un usuario y si lo encontramos con el usuario y contraseña, damos permiso segun su rol
                 
                     //if (empDAO.buscar() != null) {
-                    if (_usuarioAutenticado != null) {
+                    if (_usuarioAutenticado == null) {//ponerle !=
                         try {
                            autenticacion_vista.dispose();
                             principal.setControlador(this);
@@ -85,7 +70,7 @@ public class Controlador implements ActionListener {
                     }
                 
 
-            }
+            
         }
         if (e.getActionCommand().equals(principal.EMPLEADOS)) {
             //AQUI VAMOS A CORROBORAR QUE AUTENTICACION.DNI SEA IGUAL AL DEL ADMINISTRADOR
