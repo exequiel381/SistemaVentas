@@ -154,7 +154,7 @@ public class PedidoDAO {
                 LineaPedido tmp = new LineaPedido();
                 Producto pro = new Producto();
                 
-                pro.setCodigo(fila.getString("idProducto"));
+                pro.setIdProducto(fila.getString("idProducto"));
                 pro.setDescripcion(fila.getString("Descripcion"));
                 pro.setPrecio(fila.getInt("PrecioU"));
                 

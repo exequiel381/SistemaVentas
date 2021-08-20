@@ -17,6 +17,15 @@ public class Empleado extends Persona {
     private String Cuil;
     private int Sueldo;
     private int Antiguedad;
+    private int _idEmpleado;
+
+    public int getIdEmpleado() {
+        return _idEmpleado;
+    }
+
+    public void setIdEmpleado(int _idEmpleado) {
+        this._idEmpleado = _idEmpleado;
+    }
   
     
     

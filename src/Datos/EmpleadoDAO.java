@@ -97,7 +97,7 @@ public class EmpleadoDAO {
      public Usuario buscar(){
         try{
           
-            String sql = "SELECT * FROM empleado as e,usuarios as u,rol as r WHERE e.dni=u.Empleado_DNI and u.Rol_idRol = r.idRol and (e.dni='"+empleado.getDni()+"'"+ " or " + "e.Apellido='"+empleado.getApellido()+"')";
+            String sql = "SELECT * FROM empleado as e,usuarios as u,rol as r WHERE e.dni=u.usuario and u.Rol_idRol = r.idRol and (e.dni='"+empleado.getDni()+"'"+ " or " + "e.Apellido='"+empleado.getApellido()+"')";
             ResultSet fila = con.getConsulta().executeQuery(sql);
             if(fila.next()){
                 Empleado tmp = new Empleado();
@@ -115,7 +115,7 @@ public class EmpleadoDAO {
                 tmp.setCuil(fila.getString("Cuil"));
                 tmp.setSueldo(fila.getInt("Sueldo"));
                 tmp.setAntiguedad(fila.getInt("Antiguedad"));
-                    
+                tmp.setIdEmpleado(fila.getInt("idEmpleado"));
                 u.setEmpleado(tmp);
                 u.setUsuario(fila.getString("usuario"));
                 u.setRol(new Rol(fila.getInt("idRol"),fila.getString("Descripcion")));
@@ -162,17 +162,16 @@ public class EmpleadoDAO {
      
     public void borrar(){
         try{
-            String sql = "DELETE FROM empleado WHERE dni='"+empleado.getDni()+"'";
+             String sql = "DELETE FROM usuarios WHERE usuario='"+empleado.getDni()+"'";
             con.getConsulta().execute(sql);
-            sql = "DELETE FROM usuarios WHERE usuario='"+empleado.getDni()+"'";
+            sql = "DELETE FROM empleado WHERE dni='"+empleado.getDni()+"'";
             con.getConsulta().execute(sql);
+            
             JOptionPane.showMessageDialog(null,"Empleado Eliminado");
         }
         catch(SQLException e){
             System.out.println("Error al borrar datos a la tabla");
-            
-            System.out.println(empleado.getDni());
-            System.out.println(empleado.getApellido());
+           
         }        
     }
     
@@ -194,6 +193,26 @@ public class EmpleadoDAO {
          
         }   
         return lista;
+    }
+    
+    public int ObtenerIdEmpleado()
+    {
+        int id = 0;
+        try{
+            String sql = "SELECT * FROM empleado WHERE dni='"+empleado.getDni()+"'";
+            ResultSet fila = con.getConsulta().executeQuery(sql);
+            if(fila.next()){
+                id = fila.getInt("idEmpleado");
+            }
+            
+            
+        }
+        catch(SQLException e){
+            System.out.println("Error al leer id empleado");
+       
+         
+        }   
+        return id;
     }
     
     

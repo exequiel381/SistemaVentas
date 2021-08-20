@@ -8,10 +8,12 @@ package Datos;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import modelo.Deposito;
+import modelo.Fecha;
+import modelo.Stock;
 import modelo.Producto;
 
 /**
@@ -20,11 +22,11 @@ import modelo.Producto;
  */
 public class DepositoDAO {
     
-    private Deposito deposito;
+    private Stock deposito;
     private Conexion con;
     private int n;
     
-    public DepositoDAO(Deposito deposito,Conexion con){
+    public DepositoDAO(Stock deposito,Conexion con){
         this.con=con;
         this.deposito=deposito;
     }
@@ -34,9 +36,12 @@ public class DepositoDAO {
     
     public void AgregarProductoADeposito(){
         try {
-            String sql = "INSERT INTO deposito SET idDeposito='"+"1"+"', "
-                    +"Stock='"+deposito.getCantidad_producto()+"',"//
-                    +"Producto_idProducto='"+deposito.getProducto().getCodigo()+"'";//
+            
+            Fecha f = new Fecha();
+            String sql = "INSERT INTO Stock SET "
+                    +"Cantidad='"+deposito.getCantidad_producto()+"',"
+                    +"UltimaActualizacion='"+f.toString()+"',"
+                    +"Producto_idProducto='"+deposito.getProducto().getIdProducto()+"'";
          
             con.getConsulta().execute(sql);
         } catch (SQLException ex) {
@@ -44,8 +49,8 @@ public class DepositoDAO {
         }
     }
     
-    public ArrayList<Deposito> leer(String Filtro){
-        ArrayList<Deposito> lista = new ArrayList<Deposito>();
+    public ArrayList<Stock> leer(String Filtro){
+        ArrayList<Stock> lista = new ArrayList<Stock>();
         String Filtrado = "";
 
         if (!"".equals(Filtro)) {
@@ -60,26 +65,26 @@ public class DepositoDAO {
                     
         }
         try{
-            String sql = "SELECT Producto.idProducto,Producto.precioCompra,Producto.Talle,Producto.Descripcion,Producto.PrecioU,deposito.idDeposito,deposito.Stock FROM Producto,deposito WHERE Producto.Deposito_idDeposito = deposito.idDeposito"+Filtrado;
+            String sql = "SELECT Producto.idProducto,Producto.precioCompra,Producto.Talle,Producto.Descripcion,Producto.PrecioU,Stock.Cantidad,Stock.idStock FROM Producto,Stock WHERE Producto.idProducto = Stock.Producto_idProducto"+Filtrado;
             ResultSet fila = con.getConsulta().executeQuery(sql);
             
             while(fila.next()){
                 
                 Producto prod = new Producto();
                 
-                n=fila.getInt("Stock");
+                n=fila.getInt("Cantidad");
                 
-                Deposito tmp = new Deposito(prod,n);
+                
                
-                prod.setCodigo(fila.getString("idProducto") );
+                prod.setIdProducto(fila.getString("idProducto") );
                 prod.setDescripcion(fila.getString("Descripcion"));
                 prod.setPrecio(fila.getInt("PrecioU"));
-                prod.setTamanio(fila.getString("talle"));
+                prod.setTalle(fila.getString("talle"));
                 prod.setPrecioCompra(fila.getFloat("precioCompra"));
-                tmp.setIdDeposito(fila.getInt("idDeposito"));
                 
-               
+                Stock tmp = new Stock(prod,n);
                 
+                tmp.setIdStock(fila.getInt("idStock"));
                 
                 lista.add(tmp);
             }
@@ -94,12 +99,9 @@ public class DepositoDAO {
     public void AgregarStock(int valor){
          int Valor = valor;
         try{
-            String sql = "UPDATE deposito SET "
-                    + "Stock='"+(deposito.getCantidad_producto()+valor)+"' WHERE Producto_idProducto='"+deposito.getProducto().getCodigo()+"'";
-        
-                    
-                    
-            con.getConsulta().execute(sql);
+            String sql = "UPDATE Stock SET "
+                    + "Cantidad='"+(deposito.getCantidad_producto()+valor)+"' WHERE Producto_idProducto='"+deposito.getProducto().getIdProducto()+"'";
+        con.getConsulta().execute(sql);
             JOptionPane.showMessageDialog(null,"Stock Actualizado");
         }
         catch(SQLException e){
@@ -110,26 +112,24 @@ public class DepositoDAO {
     public void QuitarStock(int valor){
          int Valor = valor;
         try{
-            String sql = "UPDATE deposito SET "
-                    + "Stock='"+(deposito.getCantidad_producto()-valor)+"' WHERE Producto_idProducto='"+deposito.getProducto().getCodigo()+"'";
+            String sql = "UPDATE Stock SET "
+                    + "Cantidad='"+(deposito.getCantidad_producto()-valor)+"' WHERE Producto_idProducto='"+deposito.getProducto().getIdProducto()+"'";
         
-                    
-                    
             con.getConsulta().execute(sql);
             //JOptionPane.showMessageDialog(null,"Stock Actualizado");
-            System.out.println("Stock Actualizado");
+            JOptionPane.showMessageDialog(null, "Stock Actualizado");
         }
         catch(SQLException e){
-            System.out.println("Error al modificar datos a la tabla");
+            System.out.println("Error al modificar datos a la tabla "+ e);
         }        
     }
      
     public boolean getDisponible(String Codigo, int cantidad){
         try {
-            String sql = "SELECT deposito.stock FROM deposito WHERE Producto_idProducto='"+Codigo+"'";
+            String sql = "SELECT Stock.Cantidad FROM Stock WHERE Producto_idProducto='"+Codigo+"'";
             ResultSet fila = con.getConsulta().executeQuery(sql);
             if(fila.next()){
-                int Stock=fila.getInt("stock");
+                int Stock=fila.getInt("Cantidad");
                 if(Stock>=cantidad) return true;
                 
             }
@@ -140,10 +140,10 @@ public class DepositoDAO {
     }
     public int getCantidadDeStock(String Codigo){
         try {
-            String sql = "SELECT deposito.stock FROM deposito WHERE Producto_idProducto='"+Codigo+"'";
+            String sql = "SELECT Stock.Cantidad FROM Stock WHERE Producto_idProducto='"+Codigo+"'";
             ResultSet fila = con.getConsulta().executeQuery(sql);
             if(fila.next()){
-                int Stock=fila.getInt("stock");
+                int Stock=fila.getInt("Cantidad");
                 return Stock;
                 
             }

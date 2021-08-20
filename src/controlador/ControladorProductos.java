@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import Datos.Conexion;
-import modelo.Deposito;
+import modelo.Stock;
 import Datos.DepositoDAO;
 import modelo.Producto;
 import Datos.ProductoDAO;
@@ -49,17 +49,16 @@ public class ControladorProductos implements ActionListener{
         
             Producto Producto = new Producto();
             Producto.setDescripcion(GestionarProductos.getDescripcion());
-            Producto.setCodigo(GestionarProductos.getCodigo());
+            Producto.setIdProducto(GestionarProductos.getCodigo());
             Producto.setPrecio(GestionarProductos.getPrecioVenta());
             Producto.setTipo(GestionarProductos.getTipo());
             Producto.setPrecioCompra(Double.parseDouble(GestionarProductos.getPrecioCompra()));
-            Producto.setTamanio(GestionarProductos.getTamaño());
+            Producto.setTalle(GestionarProductos.getTamaño());
             Producto.setDeposito(GestionarProductos.getAlmacen());
-            Producto.setIdProv("1");
             Producto.setStockSeguridad(GestionarProductos.getStockS());
             
             
-            Deposito dep = new Deposito(Producto,0);
+            Stock dep = new Stock(Producto,0);
             DepositoDAO depDAO = new DepositoDAO(dep,con);
             
             ProductoDAO ProductoDAO = new ProductoDAO(Producto,con);
@@ -72,18 +71,19 @@ public class ControladorProductos implements ActionListener{
         
         if(e.getActionCommand().equals(GestionarProductos.BUSCARP)){
             
-            Producto Aux = new Producto("",GestionarProductos.getCodigo(),"",1,"",1,"",1,"");
+            Producto Aux = new Producto();
+            Aux.setIdProducto(GestionarProductos.getCodigo());
             ProductoDAO Prod = new ProductoDAO(Aux, con);
             Producto tmp = Prod.buscar();
           
             
             if( tmp != null){
-                GestionarProductos.setCodigo(tmp.getCodigo());
+                GestionarProductos.setCodigo(tmp.getIdProducto());
                 GestionarProductos.setDescripcion(tmp.getDescripcion());
                 GestionarProductos.setPrecioVenta(tmp.getPrecio());
                 GestionarProductos.setTipo(tmp.getTipo());
                 GestionarProductos.setPrecioCompra(""+tmp.getPrecioCompra());
-                GestionarProductos.setTamaño(tmp.getTamanio());
+                GestionarProductos.setTamaño(tmp.getTalle());
                 
                 
                 JOptionPane.showMessageDialog(null,"Encontrado");
@@ -100,13 +100,12 @@ public class ControladorProductos implements ActionListener{
             
             Producto Producto = new Producto();
             Producto.setDescripcion(GestionarProductos.getDescripcion());
-            Producto.setCodigo(GestionarProductos.getCodigo());
+            Producto.setIdProducto(GestionarProductos.getCodigo());
             Producto.setPrecio(GestionarProductos.getPrecioVenta());
             Producto.setTipo(GestionarProductos.getTipo());
             Producto.setPrecioCompra(Double.parseDouble(GestionarProductos.getPrecioCompra()));
             Producto.setDeposito(GestionarProductos.getAlmacen());
-            Producto.setTamanio(GestionarProductos.getTamaño());
-            Producto.setIdProv("1");
+            Producto.setTalle(GestionarProductos.getTamaño());
             Producto.setStockSeguridad(GestionarProductos.getStockS());
            
             
@@ -116,7 +115,8 @@ public class ControladorProductos implements ActionListener{
         }
         
         if(e.getActionCommand().equals(GestionarProductos.ELIMINARP)){
-            Producto Producto = new Producto("",GestionarProductos.getCodigo(),"",1,"",1,"",1,"");
+            Producto Producto = new Producto();
+            Producto.setIdProducto(GestionarProductos.getCodigo());
             ProductoDAO ProductoDAO = new ProductoDAO(Producto,con);
             ProductoDAO.borrar();
         }

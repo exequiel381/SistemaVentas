@@ -35,7 +35,7 @@ public class LineaPedido {
     }
 
     public  String getCodigoProducto(){
-        return producto.getCodigo();
+        return producto.getIdProducto();
     }
     
     public double getSubTotal() {

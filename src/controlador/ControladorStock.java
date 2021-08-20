@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import Datos.Conexion;
-import modelo.Deposito;
+import modelo.Stock;
 import Datos.DepositoDAO;
 import modelo.Producto;
 import modelo.Usuario;
@@ -48,9 +48,9 @@ public class ControladorStock implements ActionListener{
         if(e.getActionCommand().equals(gestionarstock.AGREGAR_STOCK)){
             
             Producto prod = new Producto();
-            prod.setCodigo(gestionarstock.seleccionarFila());
+            prod.setIdProducto(gestionarstock.seleccionarFila());
             
-            Deposito deposito = new Deposito(prod,1);
+            Stock deposito = new Stock(prod,1);
             deposito.setCantidad_producto(gestionarstock.CantidadStock());
             DepositoDAO depDAO= new DepositoDAO(deposito,con);
             
@@ -63,9 +63,9 @@ public class ControladorStock implements ActionListener{
         
         if(e.getActionCommand().equals(gestionarstock.QUITAR_STOCK)){
            Producto prod = new Producto();
-            prod.setCodigo(gestionarstock.seleccionarFila());
+            prod.setIdProducto(gestionarstock.seleccionarFila());
             
-            Deposito deposito = new Deposito(prod,1);
+            Stock deposito = new Stock(prod,1);
             deposito.setCantidad_producto(gestionarstock.CantidadStock());
             DepositoDAO depDAO= new DepositoDAO(deposito,con);
             
@@ -84,16 +84,16 @@ public class ControladorStock implements ActionListener{
     
     public void RellenarTabla(){
         
-            Deposito deposito = new Deposito();
+            Stock deposito = new Stock();
             DepositoDAO depDAO= new DepositoDAO(deposito,con);
             double TotalStock=0;
             
             ArrayList<String[]> lista = new ArrayList<String[]>();
-            for(Deposito Emp : depDAO.leer(gestionarstock.getBusqueda()) ){
+            for(Stock Emp : depDAO.leer(gestionarstock.getBusqueda()) ){
                 String linea[] = new String[6];
-                linea[0] = Emp.getProducto().getCodigo(); 
+                linea[0] = Emp.getProducto().getIdProducto(); 
                 linea[1] = Emp.getProducto().getDescripcion();
-                linea[2] = ""+Emp.getProducto().getTamanio();
+                linea[2] = ""+Emp.getProducto().getTalle();
                 //linea[2] = ""+Emp.getIdDeposito();
                 linea[3] = ""+Emp.getCantidad_producto();
                 linea[4] = ""+Emp.getProducto().getPrecio();

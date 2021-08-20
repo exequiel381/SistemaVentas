@@ -9,6 +9,7 @@ package modelo;
  * @author FIume
  */
 public abstract class Articulo {
+    
     private String Descripcion;
     private int Precio;
     private String tipo;

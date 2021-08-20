@@ -33,7 +33,7 @@ public class UsuarioDAO {
             
            String sql = "INSERT INTO usuarios SET usuario='"+usuario.getUsuario()+"', "
                     + "contraseña=MD5('"+usuario.getContraseña()+"'), "
-                    + "Empleado_DNI='"+ usuario.getUsuario()+ "', "
+                    + "Empleado_idEmpleado='"+ usuario.getEmpleado().getIdEmpleado()+ "', "
                     + "Rol_idRol='"+usuario.getRol().getIdRol()+"'";
              
             con.getConsulta().execute(sql);

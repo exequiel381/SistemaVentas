@@ -68,15 +68,13 @@ public class ControladorVentas implements ActionListener {
 
             //Parte de esto es innecesario debido a que solo buscare por codigo ahora
             Producto producto = new Producto();
-            producto.setCodigo(VentanaVentas.getPD());
-            producto.setDescripcion(VentanaVentas.getPD());
-
-            if (!"".equals(producto.getCodigo())) {
+            producto.setIdProducto(VentanaVentas.getPD());
+            if (!"".equals(producto.getIdProducto())) {
                 ProductoDAO productoDAO = new ProductoDAO(producto, con);
                 producto = productoDAO.buscar();
 
-                if (productoDAO.buscar() != null) {
-                    producto.DescripcionProducto();
+                if (producto != null) {
+                    JOptionPane.showMessageDialog(null, producto.toString());
                 } else {
                     JOptionPane.showMessageDialog(null, "No se encontro el Producto");
                 }
@@ -88,15 +86,15 @@ public class ControladorVentas implements ActionListener {
 
             DepositoDAO depDAO = new DepositoDAO(con);
             Producto producto = new Producto();
-            producto.setCodigo(VentanaVentas.getPD());
+            producto.setIdProducto(VentanaVentas.getPD());
             producto.setDescripcion(VentanaVentas.getPD());
 
             //COMPROBAMOS QUE LA CANTIDAD QUE TENEMOS EN TODAS LAS LINEAS DE VENTA NO SEA MAYOR AL STOCK QUE TENEMOS, AQUI SUMAMOS TODO LO AGREGADO DE UN MISMO PRODUCTO
             for (LineaDeVenta l : LineaVenta) {
 
                 //JOptionPane.showMessageDialog(null, producto.getCodigo() + " " + l.getProducto().getCodigo());
-                String a = l.getProducto().getCodigo().replaceAll(" ", "");
-                String b = producto.getCodigo().replaceAll(" ", "");
+                String a = l.getProducto().getIdProducto().replaceAll(" ", "");
+                String b = producto.getIdProducto().replaceAll(" ", "");
 
                 if (a.equals(b)) {
                     cantidadTotalParaVender = cantidadTotalParaVender + l.getCantidad();
@@ -105,7 +103,7 @@ public class ControladorVentas implements ActionListener {
 
             }
 
-            if (!"".equals(producto.getCodigo())
+            if (!"".equals(producto.getIdProducto())
                     && depDAO.getDisponible(VentanaVentas.getPD(), cantidadTotalParaVender)) {
                 ProductoDAO productoDAO = new ProductoDAO(producto, con);
                 producto = productoDAO.buscar();
@@ -131,7 +129,7 @@ public class ControladorVentas implements ActionListener {
             //podemos hacer que coincida con la cantidad tambien
             int IndexARemover = 1000;
             for (int i = 0; i < LineaVenta.size(); i++) {
-                if (LineaVenta.get(i).getProducto().getCodigo().equals(VentanaVentas.getFilaSeleccionada())) {//podemos poner varias lineas del mismo producto
+                if (LineaVenta.get(i).getProducto().getIdProducto().equals(VentanaVentas.getFilaSeleccionada())) {//podemos poner varias lineas del mismo producto
                     IndexARemover = i;
                 }
             }
@@ -167,8 +165,8 @@ public class ControladorVentas implements ActionListener {
             for (LineaDeVenta lv : LineaVenta) {
 
                 DepositoDAO dd = new DepositoDAO(con);
-                Deposito d = new Deposito(lv.getProducto(), 1);
-                d.setCantidad_producto(dd.getCantidadDeStock(lv.getProducto().getCodigo()));//Traer la Cantidad de Stock Existente
+                Stock d = new Stock(lv.getProducto(), 1);
+                d.setCantidad_producto(dd.getCantidadDeStock(lv.getProducto().getIdProducto()));//Traer la Cantidad de Stock Existente
                 dd = new DepositoDAO(d, con);
 
                 dd.QuitarStock(lv.getCantidad());
@@ -268,7 +266,7 @@ public class ControladorVentas implements ActionListener {
             Producto p = new Producto();
             p = lv.getProducto();
             String linea[] = new String[4];
-            linea[0] = p.getCodigo();
+            linea[0] = p.getIdProducto();
             linea[1] = p.getDescripcion();
             linea[2] = "" + lv.getCantidad();
             linea[3] = "" + lv.getSubTotal();
@@ -326,7 +324,7 @@ public class ControladorVentas implements ActionListener {
 
             String linea[] = new String[10];
             linea[0] = "" + lineaVenta.getIdLineaVenta();
-            linea[1] = "" + lineaVenta.getProducto().getCodigo();
+            linea[1] = "" + lineaVenta.getProducto().getIdProducto();
             linea[2] = "" + lineaVenta.getProducto().getDescripcion();
             linea[3] = "" + lineaVenta.getSubTotal();
             linea[4] = "" + lineaVenta.getCantidad();

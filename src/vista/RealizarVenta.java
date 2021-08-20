@@ -95,7 +95,7 @@ public class RealizarVenta extends javax.swing.JDialog{
      
      public void RellenarComboProductos(ArrayList<Producto> producto){
         for(Producto p : producto){
-            cbxProducto.addItem(p.getCodigo()+" - "+p.getDescripcion()+" T " + p.getTamanio());
+            cbxProducto.addItem(p.getIdProducto()+" - "+p.getDescripcion()+" T " + p.getTalle());
             
         }
     }

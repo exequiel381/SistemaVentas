@@ -69,7 +69,7 @@ public class VentaDAO {
         
         for(LineaDeVenta Linea : LineasVenta){
             try {
-                String sql = "INSERT INTO lineaVenta SET Producto_idProducto='"+ Linea.getProducto().getCodigo()+"', "
+                String sql = "INSERT INTO lineaVenta SET Producto_idProducto='"+ Linea.getProducto().getIdProducto()+"', "
                         +"Venta_idVenta='"+idVenta+"', "
                         +"Cantidad='"+Linea.getCantidad()+"', "
                         +"subTotal='"+Linea.getSubTotal()+"'";
@@ -78,7 +78,7 @@ public class VentaDAO {
             } catch (SQLException ex) {
                 System.out.println("No se agrego la linea de venta");
                 
-                System.out.println(Linea.getProducto().getCodigo());
+                System.out.println(Linea.getProducto().getIdProducto());
                 System.out.println(idVenta);
                 System.out.println(Linea.getCantidad());
                 System.out.println(Linea.getSubTotal());
@@ -163,7 +163,7 @@ public class VentaDAO {
                 LineaDeVenta tmp = new LineaDeVenta();
                 Producto pro = new Producto();
                 
-                pro.setCodigo(fila.getString("idProducto"));
+                pro.setIdProducto(fila.getString("idProducto"));
                 pro.setDescripcion(fila.getString("Descripcion"));
                 pro.setPrecio(fila.getInt("PrecioU"));
                 

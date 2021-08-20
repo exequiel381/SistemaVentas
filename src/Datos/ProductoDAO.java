@@ -27,12 +27,12 @@ private Conexion con;
     public void AgregarProducto(){
         try{
             
-            String sql ="INSERT INTO producto SET idProducto='"+producto.getCodigo()+"', "
+            String sql ="INSERT INTO producto SET idProducto='"+producto.getIdProducto()+"', "
                     + "Descripcion='"+producto.getDescripcion()+"', "
                     + "PrecioU='"+producto.getPrecio()+ "', "
                     + "Stock_seguridad='"+1+"', "
                     + "Tipo='"+producto.getTipo()+"',"
-                    + "Talle='"+producto.getTamanio()+"',"
+                    + "Talle='"+producto.getTalle()+"',"
                     + "precioCompra='"+producto.getPrecioCompra()+"'";
             
             con.getConsulta().execute(sql);
@@ -48,17 +48,17 @@ private Conexion con;
     public Producto buscar(){
         try{
           
-            String sql = "SELECT * FROM producto WHERE idProducto='"+producto.getCodigo()+"' or Descripcion='"+producto.getDescripcion()+"'";
+            String sql = "SELECT * FROM producto WHERE idProducto='"+producto.getIdProducto()+"' or Descripcion='"+producto.getDescripcion()+"'";
             ResultSet fila = con.getConsulta().executeQuery(sql);
             if(fila.next()){
                 Producto tmp = new Producto();
-                tmp.setCodigo(fila.getString("idProducto"));
+                tmp.setIdProducto(fila.getString("idProducto"));
                 tmp.setDescripcion(fila.getString("Descripcion"));
                 tmp.setTipo(fila.getString("Tipo"));
                 tmp.setPrecio(fila.getInt("PrecioU"));
                 tmp.setPrecioCompra(fila.getFloat("precioCompra"));
                 tmp.setStockSeguridad(fila.getInt("Stock_seguridad"));
-                tmp.setTamanio(fila.getString("Talle"));
+                tmp.setTalle(fila.getString("Talle"));
                 return tmp;
             }
             
@@ -79,13 +79,13 @@ private Conexion con;
             ResultSet fila = con.getConsulta().executeQuery(sql);
             while(fila.next()){
                 Producto tmp = new Producto();
-                tmp.setCodigo(fila.getString("idProducto"));
+                tmp.setIdProducto(fila.getString("idProducto"));
                 tmp.setDescripcion(fila.getString("Descripcion"));
                 tmp.setTipo(fila.getString("Tipo"));
                 tmp.setPrecio(fila.getInt("PrecioU"));
                 tmp.setPrecioCompra(fila.getFloat("precioCompra"));
                 tmp.setStockSeguridad(fila.getInt("Stock_seguridad"));
-                tmp.setTamanio(fila.getString("Talle"));
+                tmp.setTalle(fila.getString("Talle"));
                 
                 lista.add(tmp);
                 
@@ -110,9 +110,9 @@ private Conexion con;
                     + "PrecioU='"+producto.getPrecio()+ "', "
                     + "Stock_seguridad='"+1+"', "
                     + "Tipo='"+producto.getTipo()+"',"
-                    + "Talle='"+producto.getTamanio()+"',"
+                    + "Talle='"+producto.getTalle()+"',"
                     + "precioCompra='"+producto.getPrecioCompra()+"'"
-                    +" WHERE idProducto='"+producto.getCodigo().replaceAll(" ","")+"'";
+                    +" WHERE idProducto='"+producto.getIdProducto().replaceAll(" ","")+"'";
             con.getConsulta().execute(sql);
             JOptionPane.showMessageDialog(null,"Producto Modificado");
         }
@@ -125,7 +125,7 @@ private Conexion con;
      
     public void borrar(){
         try{
-            String sql = "DELETE FROM producto WHERE idProducto='"+producto.getCodigo().replaceAll(" ","")+"'";
+            String sql = "DELETE FROM producto WHERE idProducto='"+producto.getIdProducto().replaceAll(" ","")+"'";
             con.getConsulta().execute(sql);
             JOptionPane.showMessageDialog(null,"Producto Eliminado");
         }

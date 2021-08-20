@@ -28,7 +28,7 @@ public class LineaPedidoDAO {
                              +"cantidad='"+linea.getCantidad()+"', "
                              +"subtotal='"+linea.getSubTotal()+"', "
                              +"precioUnitario='"+linea.getPrecio_unitario()+"' "
-                    + "WHERE Pedido_idPedido='"+idPedido+"' "+ "and Producto_idProducto='"+linea.getProducto().getCodigo()+"'";
+                    + "WHERE Pedido_idPedido='"+idPedido+"' "+ "and Producto_idProducto='"+linea.getProducto().getIdProducto()+"'";
             
             
             con.getConsulta().execute(sql);
@@ -41,7 +41,7 @@ public class LineaPedidoDAO {
     }
     public void borrarLinea(int idPedido){
         try{
-            String sql = "DELETE FROM detalle_Pedido WHERE pedido_idPedido='"+idPedido+"' and Producto_idProducto='"+linea.getProducto().getCodigo()+"'";
+            String sql = "DELETE FROM detalle_Pedido WHERE pedido_idPedido='"+idPedido+"' and Producto_idProducto='"+linea.getProducto().getIdProducto()+"'";
             con.getConsulta().execute(sql);
             JOptionPane.showMessageDialog(null,"SE BORRO EL DETALLE");
         }

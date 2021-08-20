@@ -113,7 +113,7 @@ public class ControladorPedidos implements ActionListener {
         }
         if (e.getActionCommand().equals(VentanaCompra.REGISTRAR_LINEA)) {
             producto = new Producto();
-            producto.setCodigo(VentanaCompra.getProducto());
+            producto.setIdProducto(VentanaCompra.getProducto());
 
             ProductoDAO productoDAO = new ProductoDAO(producto, con);
             producto = productoDAO.buscar();
@@ -159,13 +159,13 @@ public class ControladorPedidos implements ActionListener {
              aux.modificar();
              this.RellenarTablasPedido(aux,"Pendiente");
              
-             Deposito d = new Deposito();
+             Stock d = new Stock();
              DepositoDAO dd = new DepositoDAO(d, con);
              
              for(LineaPedido lp : aux.leerLineasPedido()){
                  
                  d.setProducto(lp.getProducto());
-                 d.setCantidad_producto(dd.getCantidadDeStock(lp.getProducto().getCodigo()));
+                 d.setCantidad_producto(dd.getCantidadDeStock(lp.getProducto().getIdProducto()));
                  dd.AgregarStock(lp.getCantidad());
                  
              }
@@ -187,7 +187,7 @@ public class ControladorPedidos implements ActionListener {
              
              LineaPedido linea = new LineaPedido();
              Producto p = new Producto();
-             p.setCodigo((listaCompras.getProducto()));
+             p.setIdProducto((listaCompras.getProducto()));
              linea.setCantidad(listaCompras.getCantidad());
              linea.setProducto(p);
              linea.setPrecio_unitario(listaCompras.getPrecioCompra());
@@ -202,7 +202,7 @@ public class ControladorPedidos implements ActionListener {
              
              LineaPedido linea = new LineaPedido();
              Producto p = new Producto();
-             p.setCodigo((listaCompras.getProducto()));
+             p.setIdProducto((listaCompras.getProducto()));
              linea.setCantidad(listaCompras.getCantidad());
              linea.setProducto(p);
              linea.setPrecio_unitario(listaCompras.getPrecioCompra());
@@ -231,7 +231,7 @@ public class ControladorPedidos implements ActionListener {
         ArrayList<String[]> lista = new ArrayList<String[]>();
         for (LineaPedido p : lineasDePedido) {
             String linea[] = new String[4];
-            linea[0] = p.getProducto().getCodigo();
+            linea[0] = p.getProducto().getIdProducto();
             linea[1] = "" + p.getCantidad();
             linea[2] = "" + p.getPrecio_unitario();
             linea[3] = "" + p.getSubTotal();
@@ -269,7 +269,7 @@ public class ControladorPedidos implements ActionListener {
             for(LineaPedido lineaPedido : pedidoDAO.leerLineasPedido()){
 
                 String linea[] = new String[10];
-                linea[0] = ""+lineaPedido.getProducto().getCodigo(); 
+                linea[0] = ""+lineaPedido.getProducto().getIdProducto(); 
                 linea[1] = ""+lineaPedido.getProducto().getDescripcion(); 
                 linea[2] = ""+lineaPedido.getPrecio_unitario(); 
                 linea[3] = ""+lineaPedido.getCantidad(); 

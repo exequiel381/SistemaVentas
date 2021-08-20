@@ -19,7 +19,7 @@ public class ControladorEmpleado implements ActionListener {
 
     private Conexion con;
     private GestionarEmpleado GestionarEmpleado;
-    private Empleado modelo;
+    private Empleado _empleado;
     private Localidad localidad;
     private Usuario _usuarioAutenticado;
 
@@ -64,7 +64,12 @@ public class ControladorEmpleado implements ActionListener {
                 if (GestionarEmpleado.getRol().equals("admin")) {
                     r = new Rol(1, "admin");
                 }
+                
+                //Buscamos el empleado con dni para mandar el ID, lo seteamos en usuario
+                
                 Usuario usuarioNuevo = new Usuario("" + empleado.getDni(), GestionarEmpleado.getContraseña());
+                empleado.setIdEmpleado(empleadoDAO.ObtenerIdEmpleado());
+                usuarioNuevo.setEmpleado(empleado);
                 usuarioNuevo.setRol(r);
                 UsuarioDAO usuarioDAO = new UsuarioDAO(usuarioNuevo, con);
                 usuarioDAO.AgregarUsuario();
@@ -83,18 +88,18 @@ public class ControladorEmpleado implements ActionListener {
             
             try {
                 int dni =Integer.parseInt(GestionarEmpleado.getBusqueda());
-                modelo = new Empleado(dni, "", "", "", "", "", "", "", 1, 1, null);
+                _empleado = new Empleado(dni, "", "", "", "", "", "", "", 1, 1, null);
 
             } catch (NumberFormatException q) {
                 String apellido = GestionarEmpleado.getBusqueda();
-                modelo = new Empleado(1, "", apellido, "", "", "", "", "", 1, 1, null);
+                _empleado = new Empleado(1, "", apellido, "", "", "", "", "", 1, 1, null);
 
             }
             try {
-                EmpleadoDAO Emp = new EmpleadoDAO(modelo, con);
+                EmpleadoDAO Emp = new EmpleadoDAO(_empleado, con);
 
                 Usuario u = Emp.buscar();
-
+              
                 Empleado tmp = u.getEmpleado();
 
                 Localidad l = new Localidad();

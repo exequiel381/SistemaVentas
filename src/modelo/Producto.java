@@ -11,91 +11,112 @@ import javax.swing.JOptionPane;
  *
  * @author FIume
  */
-public class Producto extends Articulo {
+public class Producto  {
     
-    private String idProv;
-    private String Color;
-    private int deposito;
-    private int StockSeguridad;
-    private double precioCompra;
+    private String _idProducto;
+    private String _color;
+    private int _deposito;
+    private double _precioCompra;
+    private String _descripcion;
+    private int _precio;
+    private int _stockSeguridad;
+    private String _talle;
+    private String _tipo;
     
     
     
     
     public Producto(){
-        
-    }
-    
-    public Producto(String idProd,String Codigo,String Descripcion,int Precio,String tipo,int StockSeguridad,String Tamanio,int deposito){
-        super(Codigo,Descripcion,Precio,tipo,StockSeguridad,Tamanio);
-        this.idProv=idProv;
-        this.deposito=deposito;
-    }
-    
-    public Producto(String idProd,String Codigo,String Descripcion,int Precio,String tipo,int StockSeguridad,String Tamanio,int deposito,String Color){
-        super(Codigo,Descripcion,Precio,tipo,StockSeguridad,Tamanio);
-        this.idProv=idProv;
-        this.deposito=deposito;
-        this.Color=Color;
-    }
-    
-    
-    
-    
-
-    public String getIdProv() {
-        return idProv;
     }
 
-    public void setIdProv(String idProv) {
-        this.idProv = idProv;
+    public Producto(String _idProducto, String _color, int _deposito, double _precioCompra, String _descripcion, int _precio, int _stockSeguridad, String _talle, String _tipo) {
+        this._idProducto = _idProducto;
+        this._color = _color;
+        this._deposito = _deposito;
+        this._precioCompra = _precioCompra;
+        this._descripcion = _descripcion;
+        this._precio = _precio;
+        this._stockSeguridad = _stockSeguridad;
+        this._talle = _talle;
+        this._tipo = _tipo;
+    }
+
+    public String getTipo() {
+        return _tipo;
+    }
+
+    public void setTipo(String _tipo) {
+        this._tipo = _tipo;
+    }
+
+   
+    public String getIdProducto() {
+        return _idProducto;
+    }
+
+    public void setIdProducto(String _idProducto) {
+        this._idProducto = _idProducto;
+    }
+
+
+    public String getColor() {
+        return _color;
+    }
+
+    public void setColor(String _color) {
+        this._color = _color;
     }
 
     public int getDeposito() {
-        return deposito;
+        return _deposito;
     }
 
-    public void setDeposito(int deposito) {
-        this.deposito = deposito;
-    }
-
-    public String getColor() {
-        return Color;
-    }
-
-    public void setColor(String Color) {
-        this.Color = Color;
-    }
-
-   
-
-    public void setStockSeguridad(int StockSeguridad) {
-        this.StockSeguridad = StockSeguridad;
-    }
-    
-     public void DescripcionProducto(){
-        JOptionPane.showMessageDialog(null, super.toString());
+    public void setDeposito(int _deposito) {
+        this._deposito = _deposito;
     }
 
     public double getPrecioCompra() {
-        return precioCompra;
+        return _precioCompra;
     }
 
-    public void setPrecioCompra(double precioCompra) {
-        this.precioCompra = precioCompra;
-    }
-     
-     
-
-    @Override
-    public String toString() {
-        return "Producto{" + "idProv=" + idProv + ", Color=" + Color + ", deposito=" + deposito + ", StockSeguridad=" + StockSeguridad + '}';
+    public void setPrecioCompra(double _precioCompra) {
+        this._precioCompra = _precioCompra;
     }
 
+    public String getDescripcion() {
+        return _descripcion;
+    }
+
+    public void setDescripcion(String _descripcion) {
+        this._descripcion = _descripcion;
+    }
+
+    public int getPrecio() {
+        return _precio;
+    }
+
+    public void setPrecio(int _precio) {
+        this._precio = _precio;
+    }
+
+    public int getStockSeguridad() {
+        return _stockSeguridad;
+    }
+
+    public void setStockSeguridad(int _stockSeguridad) {
+        this._stockSeguridad = _stockSeguridad;
+    }
+
+    public String getTalle() {
+        return _talle;
+    }
+
+    public void setTalle(String _talle) {
+        this._talle = _talle;
+    }
+    
+    
+    
+    }
+    
    
-
-   
-    
-    
-    
-}
