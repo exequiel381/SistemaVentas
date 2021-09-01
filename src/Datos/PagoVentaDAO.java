@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package Datos;
 
 import Datos.Conexion;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.PagoVenta;
 
 /**
  *
@@ -43,8 +44,8 @@ public class PagoVentaDAO {
             con.getConsulta().execute(sql);
             System.out.println("Pago Guardado");
         } catch (SQLException ex) {
-            System.out.println("No se registro el pago");
-            System.out.println(ex);
+            System.out.println("No se registro el pago: "+ex);
+           
         }
     }
     

@@ -40,7 +40,7 @@ public class PedidoDAO {
             String sql = "INSERT INTO pedido SET idPedido='"+pedido.getIdPedido()+"', "
                     +"Fecha='"+pedido.getFecha()+"', "
                     +"Precio_Total='"+pedido.gettotal() +"', "
-                    +"Empleado_DNI='"+pedido.getEmpleado().getDni()+"', "
+                    +"Empleado_idEmpleado='"+pedido.getEmpleado().getIdEmpleado()+"', "
                     +"Proveedores_CUIL_CUIT='"+pedido.getProveedor().getCuit()+"', "
                     +"Estado='"+pedido.getEstado()+"'";
                     
@@ -50,7 +50,7 @@ public class PedidoDAO {
             JOptionPane.showMessageDialog(null,"Pedido realizado");
         } catch (SQLException ex) {
             Logger.getLogger(VentaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,"NO SE REALIZO EL PEDIDO");
+            JOptionPane.showMessageDialog(null,"NO SE REALIZO EL PEDIDO :" + ex);
         }
     }
     
@@ -106,7 +106,7 @@ public class PedidoDAO {
         ArrayList<Pedido> lista = new ArrayList<Pedido>();
         try{
             
-            String sql = "SELECT * FROM empleado,pedido,proveedores WHERE  pedido.Empleado_DNI=empleado.DNI and pedido.Proveedores_CUIL_CUIT=proveedores.CUIL_CUIT"
+            String sql = "SELECT * FROM empleado,pedido,proveedores WHERE  pedido.Empleado_idEmpleado=empleado.idEmpleado and pedido.Proveedores_CUIL_CUIT=proveedores.CUIL_CUIT"
                     +" and pedido.Estado='"+Estado+"'";
             
             ResultSet fila = con.getConsulta().executeQuery(sql);
@@ -136,7 +136,7 @@ public class PedidoDAO {
             }
         }
         catch(SQLException e){
-            System.out.println("Error al leer datos de la tabla PEDIDO");
+            System.out.println("Error al leer datos de la tabla PEDIDO "+e);
         }        
         return lista;
     }

@@ -78,6 +78,7 @@ public class RealizarVenta extends javax.swing.JDialog{
     
     public void cargarLista(ArrayList<String[]> lista){
         DefaultTableModel tabla = new DefaultTableModel();
+        tabla.addColumn("Linea");
         tabla.addColumn("idProducto");
         tabla.addColumn("Producto");
         tabla.addColumn("Cantidad");
@@ -99,6 +100,13 @@ public class RealizarVenta extends javax.swing.JDialog{
             
         }
     }
+     
+     public void MostrarModificar(){
+         btnModificarVenta.setVisible(true);
+     }
+     public void OcultarModificar(){
+         btnModificarVenta.setVisible(false);
+     }
      
     public int getCantidadAgregar(){
         return Integer.parseInt(spnCantidadAgregar.getValue().toString());
@@ -161,6 +169,7 @@ public class RealizarVenta extends javax.swing.JDialog{
         spnCantidadAgregar = new javax.swing.JSpinner();
         cbxProducto = new javax.swing.JComboBox<>();
         btnDescuento = new javax.swing.JButton();
+        btnModificarVenta = new javax.swing.JButton();
 
         jMenuItem5.setText("jMenuItem5");
 
@@ -189,6 +198,11 @@ public class RealizarVenta extends javax.swing.JDialog{
         jLabel2.setText("Id Producto/Descripcion/Talle");
 
         btnVerDetalle.setText("Ver Detalles");
+        btnVerDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerDetalleActionPerformed(evt);
+            }
+        });
 
         btnAgregar.setText("Agregar ");
 
@@ -219,6 +233,8 @@ public class RealizarVenta extends javax.swing.JDialog{
 
         btnDescuento.setText("Realizar Descuento");
 
+        btnModificarVenta.setText("Modificar Venta");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -238,23 +254,28 @@ public class RealizarVenta extends javax.swing.JDialog{
                                 .addComponent(btnVerDetalle)
                                 .addGap(196, 196, 196)))
                         .addComponent(spnCantidadAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))
+                        .addGap(16, 16, 16))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
+                        .addGap(10, 10, 10)
                         .addComponent(jButton1)
-                        .addGap(62, 62, 62)
+                        .addGap(45, 45, 45)
                         .addComponent(btnCancelar)
-                        .addGap(184, 184, 184)
-                        .addComponent(btnFinalizarVenta)
-                        .addGap(0, 3, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                        .addGap(0, 108, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnModificarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(139, 139, 139)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                        .addGap(0, 63, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnAgregar)
                         .addGap(75, 75, 75)
-                        .addComponent(btnQuitar)))
+                        .addComponent(btnQuitar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnFinalizarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(89, 89, 89)
@@ -286,9 +307,10 @@ public class RealizarVenta extends javax.swing.JDialog{
                         .addComponent(btnQuitar)
                         .addComponent(btnAgregar)
                         .addComponent(spnCantidadAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -296,13 +318,16 @@ public class RealizarVenta extends javax.swing.JDialog{
                             .addComponent(jLabel3)
                             .addComponent(CheckTarjeta)
                             .addComponent(btnDescuento))
-                        .addGap(58, 58, 58)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnFinalizarVenta)
-                            .addComponent(btnCancelar)
-                            .addComponent(jButton1)))
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap(25, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnCancelar)
+                                    .addComponent(jButton1)
+                                    .addComponent(btnFinalizarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(61, 61, 61)
+                                .addComponent(btnModificarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))))
         );
 
         pack();
@@ -322,6 +347,10 @@ this.dispose();        // TODO add your handling code here:
         this.setFilaSeleccionada(filaSeleccionada);
     }//GEN-LAST:event_tablaRVentaMouseClicked
 
+    private void btnVerDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDetalleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerDetalleActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CheckTarjeta;
@@ -329,6 +358,7 @@ this.dispose();        // TODO add your handling code here:
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnDescuento;
     private javax.swing.JButton btnFinalizarVenta;
+    private javax.swing.JButton btnModificarVenta;
     private javax.swing.JButton btnQuitar;
     private javax.swing.JButton btnVerDetalle;
     private javax.swing.JComboBox<String> cbxProducto;

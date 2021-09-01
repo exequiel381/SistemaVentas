@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelo.*;
 import vista.GestionarEmpleado;
+import vista.Principal;
+import vista.VistaFamiliares;
 
 public class ControladorEmpleado implements ActionListener {
 
@@ -22,6 +24,9 @@ public class ControladorEmpleado implements ActionListener {
     private Empleado _empleado;
     private Localidad localidad;
     private Usuario _usuarioAutenticado;
+    private VistaFamiliares _vistaFamiliar;
+    private EmpleadoDAO empleadoDAO;
+    
 
     public ControladorEmpleado(Conexion con, Usuario usuarioAutenticado) {
         this.con = con;
@@ -35,7 +40,7 @@ public class ControladorEmpleado implements ActionListener {
         GestionarEmpleado.setControlador(this);
 
         Empleado empleado = new Empleado();
-        EmpleadoDAO empleadoDAO = new EmpleadoDAO(empleado, con);
+        empleadoDAO = new EmpleadoDAO(empleado, con);
         LocalidadDAO ld = new LocalidadDAO(null, con);
         this.RellenarTablas(empleadoDAO);
         GestionarEmpleado.ejecutar(ld.ObtnerLocalidades(), empleadoDAO.ObtenerRoles());//mandar localidades y provincias // mandar roles.
@@ -46,7 +51,7 @@ public class ControladorEmpleado implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getActionCommand().equals(GestionarEmpleado.AGREGAR_EMPLEADO)) {
-
+            //DEJE COMENTADOS DONDE SE GUARDA LA BASE DE DATOS
             if (JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregarlo ?") == 0) {
                 localidad = new Localidad();
                 localidad.setCodigopostal(Integer.parseInt(GestionarEmpleado.getLocalidadCP()));
@@ -57,7 +62,7 @@ public class ControladorEmpleado implements ActionListener {
                         GestionarEmpleado.getSueldo(), GestionarEmpleado.getAntiguedad(), localidad);
 
                 EmpleadoDAO empleadoDAO = new EmpleadoDAO(empleado, con);
-                empleadoDAO.AgregarEmpleado();
+                //empleadoDAO.AgregarEmpleado();
 
                 //Con el rol podemos hacer que lo seleccione en un combo box que carguemos de la base 
                 Rol r = new Rol(2, "empleado");
@@ -72,7 +77,16 @@ public class ControladorEmpleado implements ActionListener {
                 usuarioNuevo.setEmpleado(empleado);
                 usuarioNuevo.setRol(r);
                 UsuarioDAO usuarioDAO = new UsuarioDAO(usuarioNuevo, con);
-                usuarioDAO.AgregarUsuario();
+                //usuarioDAO.AgregarUsuario();
+                
+                if (JOptionPane.showConfirmDialog(null, "Agregar Grupo Familiar ?") == 0){
+                    _vistaFamiliar = new VistaFamiliares(null,true,empleado);
+                    _vistaFamiliar.setControlador(this);
+                    GestionarEmpleado.setVisible(false);
+                    _vistaFamiliar.setVisible(true);
+                    
+                }
+                
                 this.RellenarTablas(empleadoDAO);
             }
             
@@ -188,8 +202,16 @@ public class ControladorEmpleado implements ActionListener {
             }
             
         }
+        
+         if (e.getActionCommand().equals(_vistaFamiliar.GUARDAR_FAMILIARES)) {
+             for (Familiar  f : _vistaFamiliar.getFamilia()) {
+                 empleadoDAO.AgregarFamiliar(f);
+             }
+             _vistaFamiliar.dispose();
+         }
 
     }
+    
 
     public void RellenarTablas(EmpleadoDAO empleadoDAO) {
         ArrayList<String[]> lista = new ArrayList<String[]>();

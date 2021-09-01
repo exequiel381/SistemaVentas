@@ -216,6 +216,11 @@ public class ListaPedidos extends javax.swing.JDialog{
         btnBorrar.setText("Borrar");
 
         jButton3.setText("Salir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Id_Producto");
 
@@ -262,7 +267,7 @@ public class ListaPedidos extends javax.swing.JDialog{
         btnVerDetalle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8_scroll_down_26px.png"))); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel7.setText("Detalle");
+        jLabel7.setText("DETALLE");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -317,18 +322,16 @@ public class ListaPedidos extends javax.swing.JDialog{
                                 .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(375, 375, 375)
-                        .addComponent(jLabel6)))
-                .addContainerGap(32, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(388, 388, 388)
-                    .addComponent(jLabel7)
-                    .addContainerGap(413, Short.MAX_VALUE)))
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(386, 386, 386)
+                        .addComponent(jLabel7)))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -341,7 +344,9 @@ public class ListaPedidos extends javax.swing.JDialog{
                     .addComponent(btnFiltrar)
                     .addComponent(btnFinalizarPedido)
                     .addComponent(btnCancelarPedido))
-                .addGap(79, 79, 79)
+                .addGap(39, 39, 39)
+                .addComponent(jLabel7)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -359,11 +364,6 @@ public class ListaPedidos extends javax.swing.JDialog{
                     .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(296, Short.MAX_VALUE)
-                    .addComponent(jLabel7)
-                    .addGap(251, 251, 251)))
         );
 
         pack();
@@ -385,6 +385,10 @@ public class ListaPedidos extends javax.swing.JDialog{
        subTotal = Double.parseDouble(String.valueOf(tablaDetalle.getValueAt(filaDetalle,2)))*Double.parseDouble(String.valueOf(tablaDetalle.getValueAt(filaDetalle,3)));
        txtSubtotal.setText(Double.toString(subTotal));
     }//GEN-LAST:event_tablaDetalleMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     
 

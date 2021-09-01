@@ -8,7 +8,7 @@ package modelo;
 
 
 
-class FacturaVenta {
+public class FacturaVenta {
 private double montoFactura;
 private double montoVenta;
 

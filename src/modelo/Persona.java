@@ -29,6 +29,16 @@ public abstract class Persona {
         
     }
 
+    public Persona(int dni, String nombre, String apellido, String direccion, String telefono) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.direccion = direccion;
+        this.telefono = telefono;
+    }
+    
+    
+
     public void setDni(int dni) {
         this.dni = dni;
     }

@@ -21,6 +21,7 @@ public class Venta implements IEstrategiaFijarPrecios{
     private FacturaVenta fv;
     private PagoVenta pv ;
 
+   
     public Venta() {
     }
     

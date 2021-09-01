@@ -116,8 +116,8 @@ public class DepositoDAO {
                     + "Cantidad='"+(deposito.getCantidad_producto()-valor)+"' WHERE Producto_idProducto='"+deposito.getProducto().getIdProducto()+"'";
         
             con.getConsulta().execute(sql);
-            //JOptionPane.showMessageDialog(null,"Stock Actualizado");
-            JOptionPane.showMessageDialog(null, "Stock Actualizado");
+            
+            //JOptionPane.showMessageDialog(null, "Stock Actualizado");
         }
         catch(SQLException e){
             System.out.println("Error al modificar datos a la tabla "+ e);

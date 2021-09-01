@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import modelo.Empleado;
+import modelo.Familiar;
 import modelo.Localidad;
 import modelo.Rol;
 import modelo.Usuario;
@@ -213,6 +214,27 @@ public class EmpleadoDAO {
          
         }   
         return id;
+    }
+    
+    public void AgregarFamiliar(Familiar f){
+        try{
+            String sql = "INSERT INTO grupo_familiar SET Empleado_idEmpleado ='"+f.getEmpleado().getIdEmpleado()
+                    +"', nombre='"+f.getNombre()+"',"
+                    +"apellido ='"+f.getApellido()+"',"
+                    +"telefono='"+f.getTelefono()+"',"
+                    +"direccion='"+f.getTelefono()+"', "
+                    +"dni='"+f.getDni()+"', "
+                    +"parentesco='"+f.getParentesco()+"'";
+            con.getConsulta().execute(sql);
+           JOptionPane.showMessageDialog(null,"Familiares agreados");
+            
+            
+        }
+        catch(SQLException e){
+            System.out.println("Error al agregar familiar: " + e);
+       
+         
+        }   
     }
     
     

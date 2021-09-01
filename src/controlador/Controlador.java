@@ -56,7 +56,7 @@ public class Controlador implements ActionListener {
                 //buscamos un usuario y si lo encontramos con el usuario y contraseña, damos permiso segun su rol
                 
                     //if (empDAO.buscar() != null) {
-                    if (_usuarioAutenticado == null) {//ponerle !=
+                    if (_usuarioAutenticado != null) {//ponerle !=
                         try {
                            autenticacion_vista.dispose();
                             principal.setControlador(this);

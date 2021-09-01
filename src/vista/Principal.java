@@ -104,6 +104,7 @@ public class Principal extends javax.swing.JFrame {
         MenuListaVentas = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         MenuEmpleado = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         MenuStock = new javax.swing.JMenuItem();
         MenuProductos = new javax.swing.JMenuItem();
@@ -181,6 +182,9 @@ public class Principal extends javax.swing.JFrame {
 
         MenuEmpleado.setText("Gestionar Empleados");
         jMenu2.add(MenuEmpleado);
+
+        jMenuItem5.setText("Generar Recibos de Sueldo");
+        jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
 
@@ -297,6 +301,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JButton jPrueba;
     // End of variables declaration//GEN-END:variables
 }

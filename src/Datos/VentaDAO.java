@@ -38,7 +38,7 @@ public class VentaDAO {
             String sql = "INSERT INTO venta SET idVenta='"+venta.getIdVenta()+"', "
                     +"Fecha='"+venta.getFecha()+"', "
                     +"Precio_Total='"+venta.getTotal()+"', "
-                    +"Empleado_DNI='"+venta.getEmpleado().getDni()+"'";
+                    +"Empleado_idEmpleado='"+venta.getEmpleado().getIdEmpleado()+"'";
                     
             
             
@@ -78,10 +78,7 @@ public class VentaDAO {
             } catch (SQLException ex) {
                 System.out.println("No se agrego la linea de venta");
                 
-                System.out.println(Linea.getProducto().getIdProducto());
-                System.out.println(idVenta);
-                System.out.println(Linea.getCantidad());
-                System.out.println(Linea.getSubTotal());
+               
             }
             
         }
@@ -91,7 +88,7 @@ public class VentaDAO {
         ArrayList<Venta> lista = new ArrayList<Venta>();
         try{
             
-            String sql = "SELECT * FROM empleado,venta WHERE  venta.Empleado_DNI=empleado.DNI";
+            String sql = "SELECT * FROM empleado,venta WHERE  venta.Empleado_idEmpleado=empleado.idEmpleado";
             ResultSet fila = con.getConsulta().executeQuery(sql);
             
             
@@ -113,7 +110,7 @@ public class VentaDAO {
             }
         }
         catch(SQLException e){
-            System.out.println("Error al leer datos de la tabla PEDIDO");
+            System.out.println("Error al leer datos de la tabla Ventas");
         }        
         return lista;
     }
@@ -123,7 +120,7 @@ public class VentaDAO {
         ArrayList<Venta> lista = new ArrayList<Venta>();
         try{
             
-            String sql = "SELECT * FROM empleado,venta WHERE  venta.Empleado_DNI=empleado.DNI and venta.Fecha<='"+Hasta+"' and venta.Fecha>='"+Desde+"'";
+            String sql = "SELECT * FROM empleado,venta WHERE  venta.Empleado_idEmpleado=empleado.idEmpleado and venta.Fecha<='"+Hasta+"' and venta.Fecha>='"+Desde+"'";
             ResultSet fila = con.getConsulta().executeQuery(sql);
             
             

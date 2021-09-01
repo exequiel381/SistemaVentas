@@ -10,6 +10,7 @@ import Datos.LineaPedidoDAO;
 import Datos.ProveedorDAO;
 import Datos.PedidoDAO;
 import Datos.DepositoDAO;
+import Datos.EmpleadoDAO;
 import Datos.ProductoDAO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -88,7 +89,8 @@ public class ControladorPedidos implements ActionListener {
   
             Empleado emp = new Empleado();
             emp.setDni(Integer.parseInt(_usuarioAutenticado.getUsuario()));
-          
+            EmpleadoDAO empDAO = new EmpleadoDAO(emp, con);
+            emp.setIdEmpleado(empDAO.ObtenerIdEmpleado());
             
             Proveedor prov = new Proveedor();
             prov.setRazoc(VentanaCompra.getProveedor());
@@ -151,13 +153,15 @@ public class ControladorPedidos implements ActionListener {
              
         }
         if (e.getActionCommand().equals(listaCompras.FINALIZAR)){
-             
+            
+            
+            
              Pedido pedido = new Pedido();
              pedido.setIdPedido(listaCompras.getIdSeleccionado());
              pedido.setEstado("Finalizado");
              aux = new PedidoDAO(pedido,con);
              aux.modificar();
-             this.RellenarTablasPedido(aux,"Pendiente");
+             
              
              Stock d = new Stock();
              DepositoDAO dd = new DepositoDAO(d, con);
@@ -169,6 +173,8 @@ public class ControladorPedidos implements ActionListener {
                  dd.AgregarStock(lp.getCantidad());
                  
              }
+             
+             this.RellenarTablasPedido(aux,"Pendiente");
              
              
              
