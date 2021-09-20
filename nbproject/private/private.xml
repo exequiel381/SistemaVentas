@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Unidad%20Exe/Programacion/Codigos/Proyectos%20Java/SistemaVentasGestionV0/src/controlador/ControladorEmpleado.java</file>
-            <file>file:/D:/Unidad%20Exe/Programacion/Codigos/Proyectos%20Java/SistemaVentasGestionV0/src/controlador/Controlador.java</file>
+            <file>file:/D:/Unidad%20Exe/Programacion/Codigos/Proyectos%20Java/SistemaVentasGestionV0/src/Datos/VentaDAO.java</file>
+            <file>file:/D:/Unidad%20Exe/Programacion/Codigos/Proyectos%20Java/SistemaVentasGestionV0/src/modelo/Comercio.java</file>
+            <file>file:/D:/Unidad%20Exe/Programacion/Codigos/Proyectos%20Java/SistemaVentasGestionV0/src/modelo/BoletaSueldo.java</file>
+            <file>file:/D:/Unidad%20Exe/Programacion/Codigos/Proyectos%20Java/SistemaVentasGestionV0/src/vista/RecibosDeSueldoVista.java</file>
+            <file>file:/D:/Unidad%20Exe/Programacion/Codigos/Proyectos%20Java/SistemaVentasGestionV0/src/modelo/LineaBoleta.java</file>
+            <file>file:/D:/Unidad%20Exe/Programacion/Codigos/Proyectos%20Java/SistemaVentasGestionV0/src/controlador/ControladorSueldos.java</file>
         </group>
     </open-files>
 </project-private>

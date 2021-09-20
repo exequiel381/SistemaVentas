@@ -27,6 +27,8 @@ public class Principal extends javax.swing.JFrame {
     public static final String LISTAVENTAS="LISTA DE VENTAS";
     public static final String LISTAPENDIENTES="LISTA DE PEDIDOS PENDIENTES";
     public static final String LISTAFINALIZADAS="LISTA DE PEDIDOS FINALIZADOS Y CANCELADOS";
+    public static final String RECIBOSSUELDO="RECIBOS DE SUELDO";
+    
     
     
     public Principal() {
@@ -67,6 +69,9 @@ public class Principal extends javax.swing.JFrame {
        
        MenuFinalizados.setActionCommand(LISTAFINALIZADAS);
        MenuFinalizados.addActionListener(control);
+       
+       MenuRecibos.setActionCommand(RECIBOSSUELDO);
+       MenuRecibos.addActionListener(control);
     }
     
     
@@ -104,7 +109,7 @@ public class Principal extends javax.swing.JFrame {
         MenuListaVentas = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         MenuEmpleado = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        MenuRecibos = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         MenuStock = new javax.swing.JMenuItem();
         MenuProductos = new javax.swing.JMenuItem();
@@ -156,7 +161,6 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Ventas.PNG"))); // NOI18N
         jMenu1.setText("Ventas");
-        jMenu1.setBorderPainted(true);
         jMenu1.setFocusPainted(true);
         jMenu1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -183,8 +187,8 @@ public class Principal extends javax.swing.JFrame {
         MenuEmpleado.setText("Gestionar Empleados");
         jMenu2.add(MenuEmpleado);
 
-        jMenuItem5.setText("Generar Recibos de Sueldo");
-        jMenu2.add(jMenuItem5);
+        MenuRecibos.setText("Generar Recibos de Sueldo");
+        jMenu2.add(MenuRecibos);
 
         jMenuBar1.add(jMenu2);
 
@@ -287,6 +291,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuPendientes;
     private javax.swing.JMenuItem MenuProductos;
     private javax.swing.JMenuItem MenuProveedores;
+    private javax.swing.JMenuItem MenuRecibos;
     private javax.swing.JMenuItem MenuStock;
     private javax.swing.JMenuItem MenuVentas;
     private javax.swing.JLabel jLabel1;
@@ -301,7 +306,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JButton jPrueba;
     // End of variables declaration//GEN-END:variables
 }

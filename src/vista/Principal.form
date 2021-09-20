@@ -38,7 +38,6 @@
               <Image iconType="3" name="/Imagenes/Ventas.PNG"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Ventas"/>
-            <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="focusPainted" type="boolean" value="true"/>
           </Properties>
           <Events>
@@ -71,7 +70,7 @@
                 <Property name="text" type="java.lang.String" value="Gestionar Empleados"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
+            <MenuItem class="javax.swing.JMenuItem" name="MenuRecibos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generar Recibos de Sueldo"/>
               </Properties>

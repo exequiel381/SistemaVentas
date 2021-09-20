@@ -37,6 +37,7 @@ public class GestionarEmpleado extends javax.swing.JDialog {
     public static final String ELIMINAR_EMPLEADO="ELIMINAR EMPLEADO";
     public static final String MODIFICAR_EMPLEADO="MODIFICAR EMPLEADO";
     public static final String BUSCAR="BUSCAR EMPLEADO";
+    public static final String AGREGARNOVEDAD = "AGREGAR NOVEDADES";
     public ArrayList<Localidad> localidades = new ArrayList<>();
     
             
@@ -85,8 +86,8 @@ public class GestionarEmpleado extends javax.swing.JDialog {
     }
     
     public void setControlador(ControladorEmpleado control){
-       btnGenerarRecibo.setActionCommand(GENERAR_RECIBO);
-       btnGenerarRecibo.addActionListener(control);
+       btnAgregarNovedad.setActionCommand(GENERAR_RECIBO);
+       btnAgregarNovedad.addActionListener(control);
        
        btnAgregarEmpleado.setActionCommand(AGREGAR_EMPLEADO);
        btnAgregarEmpleado.addActionListener(control);
@@ -99,6 +100,9 @@ public class GestionarEmpleado extends javax.swing.JDialog {
        
        btnBuscar.setActionCommand(BUSCAR);
        btnBuscar.addActionListener(control);
+       
+       btnAgregarNovedad.setActionCommand(AGREGARNOVEDAD);
+       btnAgregarNovedad.addActionListener(control);
     }
     
     
@@ -321,7 +325,7 @@ public class GestionarEmpleado extends javax.swing.JDialog {
         btnModificarEmpleado = new javax.swing.JButton();
         btnDarBajaEmpleado = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        btnGenerarRecibo = new javax.swing.JButton();
+        btnAgregarNovedad = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         txtBusqueda = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
@@ -407,7 +411,7 @@ public class GestionarEmpleado extends javax.swing.JDialog {
             }
         });
 
-        btnGenerarRecibo.setText("Agregar Novedad");
+        btnAgregarNovedad.setText("Agregar Novedad");
 
         jLabel15.setText("Codigo Postal");
 
@@ -482,18 +486,7 @@ public class GestionarEmpleado extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel16)
-                        .addGap(41, 41, 41)
-                        .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(btnBuscar)
-                        .addGap(56, 56, 56)
-                        .addComponent(btnGenerarRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(235, 235, 235))))
+                .addComponent(jScrollPane1))
             .addComponent(jSeparator3)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -595,6 +588,16 @@ public class GestionarEmpleado extends javax.swing.JDialog {
                         .addGap(511, 511, 511)
                         .addComponent(jLabel1)))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel16)
+                .addGap(41, 41, 41)
+                .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(btnBuscar)
+                .addGap(56, 56, 56)
+                .addComponent(btnAgregarNovedad, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(287, 287, 287))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -603,13 +606,13 @@ public class GestionarEmpleado extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar)
                     .addComponent(jLabel16)
-                    .addComponent(btnGenerarRecibo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnAgregarNovedad))
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
@@ -765,9 +768,9 @@ this.limpiarCajas();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaEmpleado;
     private javax.swing.JButton btnAgregarEmpleado;
+    private javax.swing.JButton btnAgregarNovedad;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnDarBajaEmpleado;
-    private javax.swing.JButton btnGenerarRecibo;
     private javax.swing.JButton btnModificarEmpleado;
     private javax.swing.JComboBox<String> cbxLocalidad;
     private javax.swing.JComboBox<String> cbxProvincia;

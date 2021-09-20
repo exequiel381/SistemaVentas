@@ -30,11 +30,14 @@ public class Controlador implements ActionListener {
     private GestionarEmpleado GestionarEmpleado;
     private GestionarStock gestionarstock;
     private Usuario _usuarioAutenticado;
+     private Comercio _comercio ;
 
     public Controlador(Conexion con) {//
         this.con = con;
+        _comercio = new Comercio("Adictos Showroom","Lamadrid 268","3814726483","33-1512154-9");
         autenticacion_vista = new AutenticacionVista();
         principal = new Principal();
+        
         
 
     }
@@ -72,14 +75,15 @@ public class Controlador implements ActionListener {
 
             
         }
-        if (e.getActionCommand().equals(principal.EMPLEADOS)) {
+        if (e.getActionCommand().equals(principal.EMPLEADOS)) 
+        {
             //AQUI VAMOS A CORROBORAR QUE AUTENTICACION.DNI SEA IGUAL AL DEL ADMINISTRADOR
             //if(_usuarioAutenticado.getDescripcionRol().equalsIgnoreCase("Administrador")){
              
             ControladorEmpleado ControladorEmpleado = new ControladorEmpleado(con,_usuarioAutenticado);
-            principal.setVisible(false);
+            //principal.setVisible(false);
             ControladorEmpleado.ejecutar();
-            principal.setVisible(true);
+            //principal.setVisible(true);
             //}else JOptionPane.showMessageDialog(null, "DEBES SER ADMINISTRADOR");
             
         }
@@ -88,52 +92,62 @@ public class Controlador implements ActionListener {
             
             
             ControladorStock controladorstock = new ControladorStock(con,_usuarioAutenticado);
-            principal.setVisible(false);
+            //principal.setVisible(false);
             controladorstock.ejecutar();
-            principal.setVisible(true);
+            //principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.PRODUCTOS)) {
             ControladorProductos controladorproductos = new ControladorProductos(con,_usuarioAutenticado);
-            principal.setVisible(false);
+            //principal.setVisible(false);
             controladorproductos.ejecutar();
-            principal.setVisible(true);
+            //principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.VENTAS)) {
             ControladorVentas controladorventas = new ControladorVentas(con,_usuarioAutenticado);
-            principal.setVisible(false);
+            //principal.setVisible(false);
             controladorventas.ejecutar();
-            principal.setVisible(true);
+            //principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.COMPRAS)) {
             ControladorPedidos controladorpedidos = new ControladorPedidos(con, _usuarioAutenticado);
-            principal.setVisible(false);
+            //principal.setVisible(false);
             controladorpedidos.ejecutar();
-            principal.setVisible(true);
+            //principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.PROVEEDORES)) {
             ControladorProveedores controladorProv = new ControladorProveedores(con);
-            principal.setVisible(false);
+            //principal.setVisible(false);
             controladorProv.ejecutar();
-            principal.setVisible(true);
+            //principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.LISTAVENTAS)) {
             ControladorVentas controladorventas = new ControladorVentas(con, _usuarioAutenticado);
-            principal.setVisible(false);
+            //principal.setVisible(false);
             controladorventas.listarVentas();
-            principal.setVisible(true);
+            //principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.LISTAPENDIENTES)) {
             ControladorPedidos controladorpedidos = new ControladorPedidos(con,_usuarioAutenticado);
-            principal.setVisible(false);
+           //principal.setVisible(false);
             controladorpedidos.listarPedidosPendientes();
-            principal.setVisible(true);
+            //principal.setVisible(true);
         }
         if (e.getActionCommand().equals(principal.LISTAFINALIZADAS)) {
             ControladorPedidos controladorpedidos = new ControladorPedidos(con,_usuarioAutenticado);
-            principal.setVisible(false);
+            //principal.setVisible(false);
             controladorpedidos.listarPedidosFinalizados();
-            principal.setVisible(true);
+            //principal.setVisible(true);
         }
+        
+         if (e.getActionCommand().equals(principal.RECIBOSSUELDO)) {
+          
+            ControladorSueldos controladorSueldos = new ControladorSueldos(con,_usuarioAutenticado,_comercio);
+           //principal.setVisible(false);
+            controladorSueldos.Ejecutar();
+            //principal.setVisible(true);
+        }
+        
+        
 
     }
 

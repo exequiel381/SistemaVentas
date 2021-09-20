@@ -20,6 +20,9 @@ public class Venta implements IEstrategiaFijarPrecios{
     private ArrayList<LineaDeVenta> LineasVenta;
     private FacturaVenta fv;
     private PagoVenta pv ;
+    private double TotalConIVA;
+    private double descuento=0;
+    private double montoIVA=0;
 
    
     public Venta() {
@@ -38,7 +41,13 @@ public class Venta implements IEstrategiaFijarPrecios{
         this.fecha=fecha;
         this.total=Total;
         this.idVenta=idVenta;
+        this.TotalConIVA = Total*1.21;
         }
+
+ 
+
+    
+    
     
 //    public void LineasDeventa(ArrayList<LineaDeVenta> LineasVenta){
 //       
@@ -61,7 +70,7 @@ public class Venta implements IEstrategiaFijarPrecios{
     
     public PagoVenta GenerarPago(boolean tipoPago){
         
-        fv = new FacturaVenta(total);
+        fv = new FacturaVenta(TotalConIVA);
             
         pv = new PagoVenta();
         pv.setMontoPago(fv.getTotalFactura());
@@ -76,6 +85,31 @@ public class Venta implements IEstrategiaFijarPrecios{
         
     }
 
+    public double getMontoIVA() {
+        return total*0.21;
+    }
+
+   
+
+    
+    
+    public ArrayList<LineaDeVenta> getLineasVenta() {
+        return LineasVenta;
+    }
+
+    public void setLineasVenta(ArrayList<LineaDeVenta> LineasVenta) {
+        this.LineasVenta = LineasVenta;
+    }
+
+    public double getTotalConIVA() {
+        return TotalConIVA;
+    }
+
+    public void setTotalConIVA(double TotalConIVA) {
+        this.TotalConIVA = TotalConIVA;
+    }
+
+    
     public FacturaVenta getFv() {
         return fv;
     }
@@ -91,10 +125,14 @@ public class Venta implements IEstrategiaFijarPrecios{
     public void setPv(PagoVenta pv) {
         this.pv = pv;
     }
-    
-    
-    
-    
+
+    public double getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(double descuento) {
+        this.descuento = descuento;
+    }
    
 
     public Cliente getCliente() {
@@ -140,12 +178,13 @@ public class Venta implements IEstrategiaFijarPrecios{
         for(LineaDeVenta lv : LineasVenta){
             TotalVenta+=lv.getSubTotal();
         }
-        
+        this.TotalConIVA = TotalVenta*1.21;
         return TotalVenta;
     }
     
     public void setTotal(double total) {
         this.total = total;
+        this.TotalConIVA = total*1.21;
     }
 
     public int getIdVenta() {

@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import modelo.*;
+import vista.FacturaVentaVista;
 import vista.ListaVentas;
 
 import vista.RealizarVenta;
@@ -40,7 +41,7 @@ public class ControladorVentas implements ActionListener {
 
     public ControladorVentas(Conexion con, Usuario autenticacion) {
         this.con = con;
-        VentanaVentas = new RealizarVenta(null, true);
+        VentanaVentas = new RealizarVenta(null, false);
         listaVentas = new ListaVentas(null, true);
 
         //Para poder asignar el valor de la ultima venta
@@ -62,6 +63,8 @@ public class ControladorVentas implements ActionListener {
 
     public void listarVentas() {
         listaVentas.setControlador(this);
+        ProductoDAO p = new ProductoDAO(con);
+        listaVentas.RellenarComboProductos(p.leer());
         this.RellenarTablasVentas(aux);
         listaVentas.ejecutar();
     }
@@ -79,7 +82,7 @@ public class ControladorVentas implements ActionListener {
                 producto = productoDAO.buscar();
 
                 if (producto != null) {
-                    JOptionPane.showMessageDialog(null, "Descripcion: "+producto.getDescripcion()+"\nTalle :"+producto.getTalle()+"\nStock :"+dd.getCantidadDeStock(producto.getIdProducto()));
+                    JOptionPane.showMessageDialog(null, "Descripcion: " + producto.getDescripcion() + "\nTalle :" + producto.getTalle() + "\nStock :" + dd.getCantidadDeStock(producto.getIdProducto()));
                 } else {
                     JOptionPane.showMessageDialog(null, "No se encontro el Producto");
                 }
@@ -133,15 +136,17 @@ public class ControladorVentas implements ActionListener {
         if (e.getActionCommand().equals(VentanaVentas.QUITAR_PROD)) {
 //           //debemos crear un id de linea de venta
             //podemos hacer que coincida con la cantidad tambien
-           
+
             int IndexARemover = -1;
             for (int i = 0; i < LineaVenta.size(); i++) {
-                if (LineaVenta.get(i).getIdLineaVenta() ==  Integer.parseInt(VentanaVentas.getFilaSeleccionada())) {//podemos poner varias lineas del mismo producto
+                if (LineaVenta.get(i).getIdLineaVenta() == Integer.parseInt(VentanaVentas.getFilaSeleccionada())) {//podemos poner varias lineas del mismo producto
                     IndexARemover = i;
                 }
             }
-            
-            if(IndexARemover>=0) LineaVenta.remove(LineaVenta.get(IndexARemover));
+
+            if (IndexARemover >= 0) {
+                LineaVenta.remove(LineaVenta.get(IndexARemover));
+            }
 
             this.RellenarTabla();
 
@@ -165,6 +170,7 @@ public class ControladorVentas implements ActionListener {
             venta.setIdVenta(idVenta);
             venta.setFecha(fecha.toString());
             venta.setLineas(LineaVenta);
+            venta.setDescuento(Descuento);
             venta.setTotal(venta.CalcularTotal() - Descuento);
             venta.setEmpleado(emp);
 
@@ -181,32 +187,31 @@ public class ControladorVentas implements ActionListener {
 
                 dd.QuitarStock(lv.getCantidad());
             }
-            
+
             JOptionPane.showMessageDialog(null, "Stock Actualizado");
 
+            FacturaVentaVista fv = new FacturaVentaVista();
+            fv.LlenarFactura(venta.getIdVenta(), venta);
+            //VentanaVentas.setVisible(false);
             LineaVenta.clear();
             this.RellenarTabla();
 
-           
-            
             //La idea seria que la factura calcule su total con impuestos o lo que fuere que lleva
             //Que atributos van en factura, y si debemos guardarla en la base de da
             if (VentanaVentas.getTarjeta() != null) {
-                pv=venta.GenerarPago(true);
-                
+                pv = venta.GenerarPago(true);
+
             } else {
-                pv=venta.GenerarPago(false);
+                pv = venta.GenerarPago(false);
             }
-            
+
             pv.GenerarFactura(venta.getTotal());
             pv.setMontoPago(venta.getTotal());
-            
-            PagoVentaDAO pvd = new PagoVentaDAO(pv,con);//La factura la guardamos con el mismo id de venta
+
+            PagoVentaDAO pvd = new PagoVentaDAO(pv, con);//La factura la guardamos con el mismo id de venta
             pvd.AgregarPagoVenta();//Guardamos venta y factura
 
             //this.ImprimirFactura(pv.GenerarFactura());
-            
-          
         }
 
         if (e.getActionCommand().equals(listaVentas.VERDETALLE)) {
@@ -221,18 +226,65 @@ public class ControladorVentas implements ActionListener {
         if (e.getActionCommand().equals(VentanaVentas.DESCUENTO_VENTA)) {
 
             try {
-                Descuento = Double.parseDouble(JOptionPane.showInputDialog("Ingtrese el monto de descuento"));
+                Descuento = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el monto de descuento"));
                 Descuento += venta.DescuentoMasDeCincoPrendas();
             } catch (Exception u) {
                 Descuento = venta.DescuentoMasDeCincoPrendas();
             }
             venta.setTotal(venta.CalcularTotal() - Descuento);
+            venta.setDescuento(Descuento);
             VentanaVentas.setSubTotal(venta.getTotal());
+            VentanaVentas.setSubTotalConIva(venta.getTotal() * 1.21);
         }
 
         if (e.getActionCommand().equals(listaVentas.FILTRAR)) {
 
-            this.RellenarTablasVentas(aux, listaVentas.getDesde(), listaVentas.getHasta());
+            Empleado emple = new Empleado();
+            Producto p = new Producto();
+
+            if (listaVentas.getEmpleado().equals("") && listaVentas.getIdProducto().equalsIgnoreCase("TODOS")) {
+                this.RellenarTablasVentas(aux, listaVentas.getDesde(), listaVentas.getHasta(), null, null);
+            }
+
+            if (listaVentas.getEmpleado().equals("") && !listaVentas.getIdProducto().equalsIgnoreCase("TODOS")) {
+                p.setIdProducto(listaVentas.getIdProducto());
+                ProductoDAO pd = new ProductoDAO(p, con);
+                this.RellenarTablasVentas(aux, listaVentas.getDesde(), listaVentas.getHasta(), null, pd.buscar());
+            }
+
+            if (!listaVentas.getEmpleado().equals("") && listaVentas.getIdProducto().equalsIgnoreCase("TODOS")) {
+                try {
+                    int dni = Integer.parseInt(listaVentas.getEmpleado());
+                    emple.setDni(dni);
+
+                } catch (NumberFormatException q) {
+                    String apellido = listaVentas.getEmpleado();
+                    emple.setApellido(apellido);
+
+                }
+                EmpleadoDAO ed = new EmpleadoDAO(emple, con);
+                emple = ed.buscar().getEmpleado();
+
+                this.RellenarTablasVentas(aux, listaVentas.getDesde(), listaVentas.getHasta(), ed.buscar().getEmpleado(), null);
+
+            }
+
+            if (!listaVentas.getEmpleado().equals("") && !listaVentas.getIdProducto().equalsIgnoreCase("TODOS")) {
+                try {
+                    int dni = Integer.parseInt(listaVentas.getEmpleado());
+                    emple.setDni(dni);
+
+                } catch (NumberFormatException q) {
+                    String apellido = listaVentas.getEmpleado();
+                    emple.setApellido(apellido);
+
+                }
+                EmpleadoDAO ed = new EmpleadoDAO(emple, con);
+                p.setIdProducto(listaVentas.getIdProducto());
+                ProductoDAO pd = new ProductoDAO(p, con);
+                this.RellenarTablasVentas(aux, listaVentas.getDesde(), listaVentas.getHasta(), ed.buscar().getEmpleado(), pd.buscar());
+            }
+
         }
 
         /* if (e.getActionCommand().equals(listaVentas.MODIFICARLINEAVENTA)) {
@@ -269,6 +321,24 @@ public class ControladorVentas implements ActionListener {
             aux = new VentaDAO(venta, con);
             this.RellenarTablaDetalleVenta(aux);
         }*/
+    }//PERTENECEN A LA CREACION DE UNA VENTA
+
+    public void FiltrarProductos() {
+        ProductoDAO p = new ProductoDAO(con);
+        ArrayList<Producto> filtrado = new ArrayList<>();
+        for (Producto producto : p.leer()) {
+            if (producto.getDescripcion().contains(VentanaVentas.getDescripcionFiltro())) {
+                filtrado.add(producto);
+            }
+        }
+        VentanaVentas.RellenarComboProductos(filtrado);
+    }
+    
+    public void IniciarProcesoDeCambio(int idVenta){
+        VentaDAO vd = new VentaDAO(con);
+        Venta venta = vd.ObtenerVenta(idVenta);
+        
+       
     }
 
     public void RellenarTabla() {
@@ -278,7 +348,7 @@ public class ControladorVentas implements ActionListener {
             Producto p = new Producto();
             p = lv.getProducto();
             String linea[] = new String[5];
-            linea[0] = ""+lv.getIdLineaVenta();
+            linea[0] = "" + lv.getIdLineaVenta();
             linea[1] = p.getIdProducto();
             linea[2] = p.getDescripcion();
             linea[3] = "" + lv.getCantidad();
@@ -288,6 +358,7 @@ public class ControladorVentas implements ActionListener {
         }
         VentanaVentas.cargarLista(lista);
         VentanaVentas.setSubTotal(Subtotal);
+        VentanaVentas.setSubTotalConIva(Subtotal * 1.21);
     }
 
     public void RellenarTablasVentas(VentaDAO ventaDAO) {
@@ -311,12 +382,12 @@ public class ControladorVentas implements ActionListener {
         listaVentas.setTotalVentas(TotalVentas);
     }
 
-    public void RellenarTablasVentas(VentaDAO ventaDAO, String Desde, String Hasta) {
+    public void RellenarTablasVentas(VentaDAO ventaDAO, String Desde, String Hasta, Empleado empleado, Producto p) {
 
         Double TotalVentas = 0.0;
 
         ArrayList<String[]> lista = new ArrayList<String[]>();
-        for (Venta venta : ventaDAO.leer(Desde, Hasta)) {
+        for (Venta venta : ventaDAO.leer(Desde, Hasta, empleado, p)) {
 
             String linea[] = new String[10];
             linea[0] = "" + venta.getIdVenta();
@@ -348,4 +419,8 @@ public class ControladorVentas implements ActionListener {
         listaVentas.cargarListaDetalle(lista);
     }
 
+
+
+    
+    
 }

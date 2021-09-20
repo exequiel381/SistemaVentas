@@ -5,6 +5,7 @@
  */
 package vista;
 
+import com.bulenkov.darcula.DarculaLaf;
 import controlador.Controlador;
 import controlador.ControladorVentas;
 import java.awt.Color;
@@ -14,10 +15,14 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.basic.BasicLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+import modelo.Producto;
 
 /**
  *
@@ -33,13 +38,17 @@ public class ListaVentas extends javax.swing.JDialog {
     
     public int idSeleccionado;
     private int idLineaVenta;
+    private ControladorVentas _controladorVentas;
 
     public ListaVentas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
-        this.setLocationRelativeTo(null);
         
-        
+       
+            
+            initComponents();
+            this.setLocationRelativeTo(null);
+            
+            
 //            //Le damos el formato de fecha al texto
 //            MaskFormatter formato1 = new MaskFormatter("HHHH-HH-HH"); // 4 cifras
 //            formato1.setValidCharacters("-0123456789");
@@ -48,13 +57,24 @@ public class ListaVentas extends javax.swing.JDialog {
 //            MaskFormatter formato2 = new MaskFormatter("HHHH-HH-HH"); // 4 cifras
 //            formato2.setValidCharacters("-0123456789");
 //            formato2.install(txtHasta);
+       
     }
 
     public void ejecutar() {
         this.setVisible(true);
     }
+    
+    public void RellenarComboProductos(ArrayList<Producto> producto){
+        for(Producto p : producto){
+            cbxProducto.addItem(p.getIdProducto()+" - "+p.getDescripcion()+" T " + p.getTalle());
+            
+        }
+    }
 
     public void setControlador(ControladorVentas control) {
+        
+        this._controladorVentas=control;
+        
         btnBorrar.setActionCommand(BORRARLINEAVENTA);
         btnBorrar.addActionListener(control);
         btnBorrar.setVisible(false);
@@ -71,6 +91,8 @@ public class ListaVentas extends javax.swing.JDialog {
         
         
     }
+    
+    
 
     public void cargarListaVentas(ArrayList<String[]> lista) {
         DefaultTableModel ventas = new DefaultTableModel();
@@ -104,7 +126,14 @@ public class ListaVentas extends javax.swing.JDialog {
         txtTotaVentas.setText(Total.toString());
     }
             
+    public String getEmpleado(){
+        return txtEmpleado.getText();
+    }
     
+    public String getIdProducto(){
+        if(cbxProducto.getSelectedItem().toString().equalsIgnoreCase("TODOS"))  return "TODOS";
+        return cbxProducto.getSelectedItem().toString().substring(0,2);
+    }
     
 
     public int getIdFilaDetalle() {
@@ -134,7 +163,12 @@ public class ListaVentas extends javax.swing.JDialog {
     }
 
     public int getIdVenta() {
-        return Integer.parseInt(txtIdVenta.getText());
+        try{
+             return Integer.parseInt(txtIdVenta.getText());
+        }catch(Exception e){
+            return -1;
+        }
+       
     }
 
     
@@ -198,15 +232,16 @@ public class ListaVentas extends javax.swing.JDialog {
         txtHasta = new com.toedter.calendar.JDateChooser();
         Empleado = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtEmpleado = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        cbxProducto = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 152, 255));
 
         tablaVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -240,7 +275,12 @@ public class ListaVentas extends javax.swing.JDialog {
             tablaVentas.getColumnModel().getColumn(4).setMaxWidth(25);
         }
 
-        btnModificar.setText("Modificar");
+        btnModificar.setText("Realizar Cambios");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnBorrar.setText("Borrar");
 
@@ -317,7 +357,9 @@ public class ListaVentas extends javax.swing.JDialog {
 
         jButton1.setText("Buscar");
 
-        jLabel5.setText("Falta programar esta busqueda, y filtrar Empleadoy producto");
+        jLabel5.setText("Falta programar esta busqueda");
+
+        cbxProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -344,7 +386,7 @@ public class ListaVentas extends javax.swing.JDialog {
                                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(40, 40, 40)
                                         .addComponent(jLabel5)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGap(0, 378, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel3)
@@ -355,7 +397,7 @@ public class ListaVentas extends javax.swing.JDialog {
                                                     .addComponent(txtIdVenta)
                                                     .addComponent(txtFactura, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
                                                 .addGap(85, 85, 85)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(layout.createSequentialGroup()
                                                         .addComponent(jLabel10)
                                                         .addGap(18, 18, 18)
@@ -363,18 +405,19 @@ public class ListaVentas extends javax.swing.JDialog {
                                                     .addGroup(layout.createSequentialGroup()
                                                         .addComponent(jLabel7)
                                                         .addGap(18, 18, 18)
-                                                        .addComponent(txtHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                                        .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                         .addGap(53, 53, 53)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(Empleado)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTextField2))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(Empleado)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                                                .addGap(16, 16, 16)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                            .addComponent(cbxProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addComponent(jLabel11)
@@ -387,11 +430,11 @@ public class ListaVentas extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(214, 214, 214)
-                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(119, 119, 119)
-                                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(107, 107, 107)
+                                .addGap(203, 203, 203)
+                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(76, 76, 76)
+                                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(95, 95, 95)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(461, 461, 461)
@@ -422,7 +465,7 @@ public class ListaVentas extends javax.swing.JDialog {
                         .addComponent(txtTotaVentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel11)
                         .addComponent(Empleado)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -432,8 +475,8 @@ public class ListaVentas extends javax.swing.JDialog {
                     .addComponent(jLabel7)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -471,6 +514,13 @@ public class ListaVentas extends javax.swing.JDialog {
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int idVenta = this.getIdVenta();
+        if(idVenta >= 0)  _controladorVentas.IniciarProcesoDeCambio(idVenta);
+        else JOptionPane.showMessageDialog(null,"No selecciono ninguna venta");
+            
+    }//GEN-LAST:event_btnModificarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Empleado;
@@ -478,6 +528,7 @@ public class ListaVentas extends javax.swing.JDialog {
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVerDetalle;
+    private javax.swing.JComboBox<String> cbxProducto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
@@ -492,12 +543,11 @@ public class ListaVentas extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tablaDetalle;
     private javax.swing.JTable tablaVentas;
     private com.toedter.calendar.JDateChooser txtDesde;
+    private javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextField txtFactura;
     private com.toedter.calendar.JDateChooser txtHasta;
     private javax.swing.JTextField txtIdVenta;

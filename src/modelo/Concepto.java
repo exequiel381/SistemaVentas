@@ -10,28 +10,38 @@ package modelo;
  * @author FIume
  */
 public class Concepto {
-    private int Codigo;
+    private int idConcepto;
     private String Detalle;
-    private double monto ;
-    private double haberes;
-    private double deducciones;
+   private double porcentaje;
+   private String Tipo;
+
+    public Concepto() {
+    }
+
     
-    private Concepto(int Codigo,String Detalle,double monto,double haberes,double deducciones){
-        
-        this.Codigo=Codigo;
-        this.Detalle=Detalle;
-        this.deducciones=deducciones;
-        this.haberes=haberes;
-        this.monto=monto;
-        
+    
+    public Concepto(int idConcepto, String Detalle, double porcentaje) {
+        this.idConcepto = idConcepto;
+        this.Detalle = Detalle;
+        this.porcentaje = porcentaje;
     }
 
-    public int getCodigo() {
-        return Codigo;
+    public String getTipo() {
+        return Tipo;
     }
 
-    public void setCodigo(int Codigo) {
-        this.Codigo = Codigo;
+    public void setTipo(String Tipo) {
+        this.Tipo = Tipo;
+    }
+    
+    
+
+    public int getIdConcepto() {
+        return idConcepto;
+    }
+
+    public void setIdConcepto(int idConcepto) {
+        this.idConcepto = idConcepto;
     }
 
     public String getDetalle() {
@@ -42,29 +52,16 @@ public class Concepto {
         this.Detalle = Detalle;
     }
 
-    public double getMonto() {
-        return monto;
+    public double getPorcentaje() {
+        return porcentaje;
     }
 
-    public void setMonto(double monto) {
-        this.monto = monto;
+    public void setPorcentaje(double porcentaje) {
+        this.porcentaje = porcentaje;
     }
-
-    public double getHaberes() {
-        return haberes;
-    }
-
-    public void setHaberes(double haberes) {
-        this.haberes = haberes;
-    }
-
-    public double getDeducciones() {
-        return deducciones;
-    }
-
-    public void setDeducciones(double deducciones) {
-        this.deducciones = deducciones;
-    }
+    
+    
+    
     
     
 }

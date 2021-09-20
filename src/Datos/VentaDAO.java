@@ -32,12 +32,23 @@ public class VentaDAO {
         this.con=con;
         this.venta=venta;
     }
+
+    public Venta getVenta() {
+        return venta;
+    }
+
+    public void setVenta(Venta venta) {
+        this.venta = venta;
+    }
+    
+    
     
     public void Agregar(){
         try {
             String sql = "INSERT INTO venta SET idVenta='"+venta.getIdVenta()+"', "
                     +"Fecha='"+venta.getFecha()+"', "
                     +"Precio_Total='"+venta.getTotal()+"', "
+                    +"Descuento='"+venta.getDescuento()+"', "
                     +"Empleado_idEmpleado='"+venta.getEmpleado().getIdEmpleado()+"'";
                     
             
@@ -116,11 +127,44 @@ public class VentaDAO {
     }
      
      
-     public ArrayList<Venta> leer(String Desde, String Hasta){
+     public ArrayList<Venta> leer(String Desde, String Hasta,Empleado empleado,Producto p){
         ArrayList<Venta> lista = new ArrayList<Venta>();
         try{
             
-            String sql = "SELECT * FROM empleado,venta WHERE  venta.Empleado_idEmpleado=empleado.idEmpleado and venta.Fecha<='"+Hasta+"' and venta.Fecha>='"+Desde+"'";
+             String sql = "SELECT * FROM empleado as e,venta as v,lineaventa as l WHERE  v.Empleado_idEmpleado=e.idEmpleado and l.venta_idventa=v.idventa and v.Fecha<='"+Hasta+"' and v.Fecha>='"+Desde+"' group by v.idventa";
+             
+            if(empleado != null && p!=null) {
+               
+                sql = "SELECT * FROM empleado as e,venta as v,lineaventa as l "
+                    + "WHERE  v.Empleado_idEmpleado=e.idEmpleado "
+                    + "and l.venta_idventa=v.idventa "    
+                    + "and v.Fecha<='"+Hasta+"' and v.Fecha>='"+Desde+"' "
+                    + "and v.Empleado_idEmpleado='"+empleado.getIdEmpleado()+"' "
+                    + "and l.producto_idproducto='"+p.getIdProducto()+"' "
+                    +"group by v.idventa";
+            }
+            
+            if(empleado == null && p!=null) {
+          
+                sql = "SELECT * FROM empleado as e,venta as v,lineaventa as l "
+                    + "WHERE  v.Empleado_idEmpleado=e.idEmpleado "
+                    + "and l.venta_idventa=v.idventa "    
+                    + "and v.Fecha<='"+Hasta+"' and v.Fecha>='"+Desde+"' "
+                   + "and l.producto_idproducto='"+p.getIdProducto()+"' "
+                    +"group by v.idventa";
+            }
+            
+            if(empleado != null && p==null) {
+           
+                sql = "SELECT * FROM empleado as e,venta as v,lineaventa as l "
+                    + "WHERE  v.Empleado_idEmpleado=e.idEmpleado "
+                    + "and l.venta_idventa=v.idventa "    
+                    + "and v.Fecha<='"+Hasta+"' and v.Fecha>='"+Desde+"' "
+                    + "and v.Empleado_idEmpleado='"+empleado.getIdEmpleado()+"' "
+                    +"group by v.idventa";
+            }
+                
+            
             ResultSet fila = con.getConsulta().executeQuery(sql);
             
             
@@ -129,12 +173,12 @@ public class VentaDAO {
                 Venta tmp = new Venta();
                 Empleado emp = new Empleado();
                 
-                emp.setDni(fila.getInt("DNI"));
-                emp.setNombre(fila.getString("Nombre"));
+                emp.setDni(fila.getInt("e.DNI"));
+                emp.setNombre(fila.getString("e.Nombre"));
                 
-                tmp.setIdVenta(fila.getInt("idVenta") );
-                tmp.setFecha(fila.getString("Fecha"));
-                tmp.setTotal(fila.getDouble("Precio_Total"));
+                tmp.setIdVenta(fila.getInt("v.idVenta") );
+                tmp.setFecha(fila.getString("v.Fecha"));
+                tmp.setTotal(fila.getDouble("v.Precio_Total"));
                 tmp.setEmpleado(emp);
                 
                 
@@ -142,7 +186,7 @@ public class VentaDAO {
             }
         }
         catch(SQLException e){
-            System.out.println("Error al leer datos de la tabla PEDIDO");
+            System.out.println("Error al leer datos de la tabla Ventas" + e);
         }        
         return lista;
     }
@@ -178,6 +222,10 @@ public class VentaDAO {
             System.out.println("Error al leer datos de la tabla Linea Ventas");
         } 
          return lista;
+    }
+
+    public Venta ObtenerVenta(int idVenta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
