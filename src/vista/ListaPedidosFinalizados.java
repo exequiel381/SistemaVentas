@@ -5,8 +5,12 @@
  */
 package vista;
 
+import controlador.ControladorPedidos;
 import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Pedido;
 
 /**
  *
@@ -17,15 +21,26 @@ public class ListaPedidosFinalizados extends javax.swing.JDialog {
     /**
      * Creates new form ListaPedidosPendientes
      */
-    public ListaPedidosFinalizados(java.awt.Frame parent, boolean modal) {
+    
+        private ControladorPedidos _control ;
+    
+    public ListaPedidosFinalizados(java.awt.Frame parent, boolean modal,ControladorPedidos control) {
         super(parent,modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+        this._control = control;
     }
+    
+
+
+    
+    
+    
     
     public void ejecutar(){
         this.setVisible(true);
     }
-    
+   
     
     public void cargarLista(ArrayList<String[]> lista){
         DefaultTableModel pedido = new DefaultTableModel();
@@ -43,6 +58,23 @@ public class ListaPedidosFinalizados extends javax.swing.JDialog {
         }        
         tablaPedidosFinalizados.setModel(pedido);
     }
+    
+    public void cargarListaPedido(ArrayList<Pedido> lista){
+        DefaultTableModel pedido = new DefaultTableModel();
+        pedido.addColumn("idPedido");
+        pedido.addColumn("Fecha");
+        pedido.addColumn("Total");
+        pedido.addColumn("Proveedor");
+        pedido.addColumn("Empleado");
+        pedido.addColumn("Estado");
+      
+        
+        
+       for(Pedido p : lista ){
+            pedido.addRow(new Object[]{p.getIdPedido(),p.getFecha(),p.gettotal(),p.getProveedor().getRazoc(),p.getEmpleado().getNombre(),p.getEstado()});
+        }        
+        tablaPedidosFinalizados.setModel(pedido);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,8 +89,13 @@ public class ListaPedidosFinalizados extends javax.swing.JDialog {
         tablaPedidosFinalizados = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnFiltrarFechas = new javax.swing.JButton();
         txtFactura = new javax.swing.JTextField();
+        txtDesde = new com.toedter.calendar.JDateChooser();
+        txtHasta = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         tablaPedidosFinalizados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -78,7 +115,23 @@ public class ListaPedidosFinalizados extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("PEDIDOS FINALIZADOS / CANCELADOS");
 
-        jButton1.setText("Filtrar");
+        btnFiltrarFechas.setText("Filtrar Periodo");
+        btnFiltrarFechas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarFechasActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Desde :");
+
+        jLabel4.setText("Desde :");
+
+        jButton2.setText("Salir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,39 +139,89 @@ public class ListaPedidosFinalizados extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
-                        .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1071, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78)
+                .addComponent(jLabel4)
+                .addGap(28, 28, 28)
+                .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(btnFiltrarFechas, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(354, 354, 354)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(txtFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(45, 45, 45))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(102, 102, 102))
+                        .addComponent(txtFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(472, 472, 472)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1)
                     .addComponent(txtFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(btnFiltrarFechas))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(19, 19, 19))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+public String getDesde() {
+        Date date = txtDesde.getDate();
+       
+        long d = date.getTime();
+        java.sql.Date fecha = new java.sql.Date(d);
+        String f = fecha.toString();
+       
+        return f;
+    }
+
+
+    public String getHasta() {
+        Date date = txtHasta.getDate();
+       
+        long d = date.getTime();
+        java.sql.Date fecha = new java.sql.Date(d);
+        String f = fecha.toString();
+       
+        return f;
+    }
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();      
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnFiltrarFechasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarFechasActionPerformed
+           
+        this._control.FiltrarPedidos(this.getDesde(),this.getHasta());    
+        
+    }//GEN-LAST:event_btnFiltrarFechasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -126,11 +229,16 @@ public class ListaPedidosFinalizados extends javax.swing.JDialog {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnFiltrarFechas;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaPedidosFinalizados;
+    private com.toedter.calendar.JDateChooser txtDesde;
     private javax.swing.JTextField txtFactura;
+    private com.toedter.calendar.JDateChooser txtHasta;
     // End of variables declaration//GEN-END:variables
 }

@@ -46,7 +46,7 @@ public class ControladorPedidos implements ActionListener {
         this.con = con;
         
         VentanaCompra = new RegistrarPedido(null, true);
-        listaPedidosFinalizados = new ListaPedidosFinalizados(null,true);
+        listaPedidosFinalizados = new ListaPedidosFinalizados(null,true,this);
         listaCompras = new ListaPedidos(null,true);
         
         this.aux = new PedidoDAO(con);
@@ -224,7 +224,14 @@ public class ControladorPedidos implements ActionListener {
 
     }
     
-    
+  public void FiltrarPedidos(String desde, String hasta) {
+       PedidoDAO pd = new PedidoDAO(con);
+       if(!listaPedidosFinalizados.getDesde().equalsIgnoreCase("") && !listaPedidosFinalizados.getHasta().equalsIgnoreCase(""))     
+       listaPedidosFinalizados.cargarListaPedido(pd.ObtenerPedidosFiltrados(desde,hasta));
+       else this.RellenarTablasPedido(pd, "finalizado");
+       
+       
+    }
     
     
     
@@ -285,4 +292,6 @@ public class ControladorPedidos implements ActionListener {
             }
             listaCompras.cargarListaDetalle(lista);
      }
+
+  
 }

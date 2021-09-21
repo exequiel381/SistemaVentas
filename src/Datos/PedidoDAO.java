@@ -172,6 +172,46 @@ public class PedidoDAO {
         } 
          return lista;
     }
+
+    public ArrayList<Pedido> ObtenerPedidosFiltrados(String desde, String hasta) {
+       
+    ArrayList<Pedido> lista = new ArrayList<Pedido>();
+        try{
+            
+            String sql = "SELECT * FROM empleado,pedido,proveedores WHERE  pedido.Empleado_idEmpleado=empleado.idEmpleado and pedido.Proveedores_CUIL_CUIT=proveedores.CUIL_CUIT"
+                    +" and pedido.Fecha>='"+desde+"' and pedido.fecha<='"+hasta+"'";
+            
+            ResultSet fila = con.getConsulta().executeQuery(sql);
+            
+            
+            while(fila.next()){
+                
+                Pedido tmp = new Pedido();
+                Empleado emp = new Empleado();
+                Proveedor prov = new Proveedor();
+                
+                emp.setDni(fila.getInt("DNI"));
+                emp.setNombre(fila.getString("Nombre"));
+                
+                prov.setCuit(fila.getString("CUIL_CUIT"));
+                prov.setRazoc(fila.getString("Razoc"));
+              
+                
+                tmp.setIdPedido(fila.getInt("idPedido") );
+                tmp.setFecha(fila.getString("Fecha"));
+                tmp.setTotal(fila.getDouble("Precio_Total"));
+                tmp.setEstado(fila.getString("Estado"));
+                tmp.setEmpleado(emp);
+                tmp.setProveedor(prov);
+                
+                lista.add(tmp);
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Error al filtrar datos de la tabla PEDIDO "+e);
+        }        
+        return lista;
+    }
     
     
 }

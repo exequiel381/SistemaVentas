@@ -100,6 +100,7 @@ public class VistaFamiliares extends javax.swing.JDialog {
         btnGuardarFamilia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1080, 640));
 
         tablaFamilia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

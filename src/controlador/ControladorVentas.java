@@ -419,6 +419,13 @@ public class ControladorVentas implements ActionListener {
         listaVentas.cargarListaDetalle(lista);
     }
 
+   
+
+    public void FiltrarVenta(String nFactura) {
+        
+      
+    }
+
 
 
     
