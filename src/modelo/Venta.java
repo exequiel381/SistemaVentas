@@ -44,6 +44,10 @@ public class Venta implements IEstrategiaFijarPrecios{
         this.TotalConIVA = Total*1.21;
         }
 
+    public Venta(String nFactura) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
  
 
     

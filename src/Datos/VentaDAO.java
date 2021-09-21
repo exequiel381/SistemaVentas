@@ -225,10 +225,32 @@ public class VentaDAO {
     }
 
     public Venta ObtenerVenta(int idVenta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Venta tmp = new Venta();
+        try {
+
+            String sql = "SELECT * FROM empleado,venta WHERE  venta.Empleado_idEmpleado=empleado.idEmpleado and venta.idVenta='" + idVenta + "'";
+            ResultSet fila = con.getConsulta().executeQuery(sql);
+
+            if (fila.next()) {
+
+                Empleado emp = new Empleado();
+
+                emp.setDni(fila.getInt("DNI"));
+                emp.setNombre(fila.getString("Nombre"));
+
+                tmp.setIdVenta(fila.getInt("idVenta"));
+                tmp.setFecha(fila.getString("Fecha"));
+                tmp.setTotal(fila.getDouble("Precio_Total"));
+                tmp.setEmpleado(emp);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al leer datos de la tabla Ventas");
+        }
+        return tmp;
     }
-    
-    
+
+
     
     
 }

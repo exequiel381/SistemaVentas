@@ -23,6 +23,7 @@ import javax.swing.plaf.basic.BasicLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import modelo.Producto;
+import modelo.Venta;
 
 /**
  *
@@ -120,6 +121,19 @@ public class ListaVentas extends javax.swing.JDialog {
             detalle.addRow(fila);
         }
         tablaDetalle.setModel(detalle);
+    }
+    
+    
+     public void FiltrarVenta(Venta v) {
+        DefaultTableModel ventas = new DefaultTableModel();
+        ventas.addColumn("idVenta");
+        ventas.addColumn("Fecha");
+        ventas.addColumn("Total");
+        ventas.addColumn("Empleado");
+
+        ventas.addRow(new Object[]{v.getIdVenta(),v.getFecha(),v.getTotal(),v.getEmpleado().getApellido()});
+       
+        tablaVentas.setModel(ventas);
     }
 
     public void setTotalVentas(Double Total){
@@ -236,8 +250,7 @@ public class ListaVentas extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtNumeroFactura = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
         cbxProducto = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -361,9 +374,12 @@ public class ListaVentas extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setText("Buscar");
-
-        jLabel5.setText("Falta programar esta busqueda");
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         cbxProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS" }));
 
@@ -423,10 +439,8 @@ public class ListaVentas extends javax.swing.JDialog {
                                         .addGap(18, 18, 18)
                                         .addComponent(txtNumeroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(40, 40, 40)
-                                        .addComponent(jLabel5)
-                                        .addGap(117, 117, 117))
+                                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(335, 335, 335))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1043, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))))
@@ -458,8 +472,7 @@ public class ListaVentas extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtNumeroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel5))
+                    .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
@@ -531,18 +544,26 @@ public class ListaVentas extends javax.swing.JDialog {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void txtNumeroFacturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroFacturaKeyTyped
-        this._controladorVentas.FiltrarVenta(txtNumeroFactura.getText());        // TODO add your handling code here:
+       
+        
+           // TODO add your handling code here:
     }//GEN-LAST:event_txtNumeroFacturaKeyTyped
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        
+        this._controladorVentas.FiltrarVenta(txtNumeroFactura.getText());    
+       
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Empleado;
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVerDetalle;
     private javax.swing.JComboBox<String> cbxProducto;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -550,7 +571,6 @@ public class ListaVentas extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

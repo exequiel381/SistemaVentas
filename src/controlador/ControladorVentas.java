@@ -333,12 +333,39 @@ public class ControladorVentas implements ActionListener {
         }
         VentanaVentas.RellenarComboProductos(filtrado);
     }
-    
-    public void IniciarProcesoDeCambio(int idVenta){
+
+    public void IniciarProcesoDeCambio(int idVenta) {
         VentaDAO vd = new VentaDAO(con);
         Venta venta = vd.ObtenerVenta(idVenta);
-        
-       
+
+    }
+
+    public void FiltrarVenta(String nFactura) {
+//     
+        if (!nFactura.equals("")) {
+            try {
+                int numeroFactura = Integer.parseInt(nFactura);
+
+                VentaDAO vd = new VentaDAO(con);
+                int aux = -1;
+                //listaVentas.cargarListaVentasObject();
+                ArrayList<Venta> ventas = vd.leer();
+                for (int i = 0; i < ventas.size(); i++) {
+                    if (ventas.get(i).getIdVenta() == numeroFactura) {
+                        aux = i;
+                    }
+                    if (aux >= 0) {
+                        listaVentas.FiltrarVenta(ventas.get(aux));
+                    }
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar numero de factura -- Controlador Ventas");
+            }
+        } else {
+            this.RellenarTablasVentas(aux);
+        }
+
     }
 
     public void RellenarTabla() {
@@ -419,15 +446,4 @@ public class ControladorVentas implements ActionListener {
         listaVentas.cargarListaDetalle(lista);
     }
 
-   
-
-    public void FiltrarVenta(String nFactura) {
-        
-      
-    }
-
-
-
-    
-    
 }
