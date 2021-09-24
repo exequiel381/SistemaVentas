@@ -193,6 +193,8 @@ public class ListaPedidosFinalizados extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 public String getDesde() {
+    
+    try{
         Date date = txtDesde.getDate();
        
         long d = date.getTime();
@@ -200,17 +202,27 @@ public String getDesde() {
         String f = fecha.toString();
        
         return f;
+    }catch(Exception e){
+        return "";
+    }
+    
     }
 
 
     public String getHasta() {
-        Date date = txtHasta.getDate();
+        try{
+            Date date = txtHasta.getDate();
        
         long d = date.getTime();
         java.sql.Date fecha = new java.sql.Date(d);
         String f = fecha.toString();
        
         return f;
+        }catch(Exception e){
+        return "";
+        }
+        
+        
     }
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

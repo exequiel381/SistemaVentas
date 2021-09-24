@@ -189,7 +189,7 @@ public class ControladorPedidos implements ActionListener {
              this.RellenarTablasPedido(aux,"Pendiente");
              
         }
-        if (e.getActionCommand().equals(listaCompras.BORRAR_COMPRA)){
+       /* if (e.getActionCommand().equals(listaCompras.BORRAR_COMPRA)){
              
              LineaPedido linea = new LineaPedido();
              Producto p = new Producto();
@@ -218,7 +218,7 @@ public class ControladorPedidos implements ActionListener {
              lineapedidoDAO.moficarDetalle(listaCompras.getPedido());
              
              this.RellenarTablaDetallePedido(aux);
-        }
+        }*/
         
         
 
@@ -226,7 +226,7 @@ public class ControladorPedidos implements ActionListener {
     
   public void FiltrarPedidos(String desde, String hasta) {
        PedidoDAO pd = new PedidoDAO(con);
-       if(!listaPedidosFinalizados.getDesde().equalsIgnoreCase("") && !listaPedidosFinalizados.getHasta().equalsIgnoreCase(""))     
+       if(!desde.equalsIgnoreCase("") && !hasta.equalsIgnoreCase(""))     
        listaPedidosFinalizados.cargarListaPedido(pd.ObtenerPedidosFiltrados(desde,hasta));
        else this.RellenarTablasPedido(pd, "finalizado");
        
@@ -286,6 +286,7 @@ public class ControladorPedidos implements ActionListener {
                 linea[1] = ""+lineaPedido.getProducto().getDescripcion(); 
                 linea[2] = ""+lineaPedido.getPrecio_unitario(); 
                 linea[3] = ""+lineaPedido.getCantidad(); 
+                linea[4] = ""+lineaPedido.getCantidad()*lineaPedido.getPrecio_unitario(); 
               
 
                 lista.add(linea);
