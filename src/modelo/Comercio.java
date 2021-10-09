@@ -62,7 +62,7 @@ public class Comercio {
         this.Cuit = Cuit;
     }
     
-    public ArrayList<BoletaSueldo> CrearBoletasSueldo(ArrayList<Empleado> empleados, ArrayList<Concepto> conceptos,ArrayList<Novedad> novedades,int mes, int anio,int ultimoIdBoleta){
+     public ArrayList<BoletaSueldo> CrearBoletasSueldo(ArrayList<Empleado> empleados, ArrayList<Concepto> conceptos,ArrayList<Novedad> novedades,int mes, int anio,int ultimoIdBoleta){
         ArrayList<BoletaSueldo> boletas = new ArrayList<>();
         int idBoleta = ultimoIdBoleta;
         for (Empleado e : empleados) {

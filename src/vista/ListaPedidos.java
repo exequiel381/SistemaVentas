@@ -106,31 +106,7 @@ public class ListaPedidos extends javax.swing.JDialog{
      }
      
    
-   public Double getSubtotal(){
-       return Double.parseDouble(txtSubtotal.getText());
-   }
-  
-     
-    public void setSubTotal(double SubTotal){
-        txtSubtotal.setText(Double.toString(SubTotal));
-    }
    
-    public void setCantidad(int Cantidad){
-        txtCantidad.setText(Integer.toString(Cantidad));
-    }
-    public int getCantidad(){
-        return Integer.parseInt(txtCantidad.getText());
-    }
-    
-    
-   
-    
-    public void setProducto(int Insumo){
-        txtProducto.setText(Integer.toString(Insumo));
-    }
-    public String getProducto(){
-        return txtProducto.getText();
-    }
     
     
     

@@ -453,10 +453,10 @@ public class EmpleadoDAO {
         return true;
     }
 
-    public ArrayList<Novedad> ObtenerTodasNovedades() {
+    public ArrayList<Novedad> ObtenerNovedades(int mes,int anio) {
        ArrayList<Novedad> novedades = new ArrayList<>();
          try{
-            String sql = "SELECT * FROM novedades as n,empleado as e WHERE n.empleado_idEmpleado=e.idEmpleado";
+            String sql = "SELECT * FROM novedades as n,empleado as e WHERE n.empleado_idEmpleado=e.idEmpleado and mes='"+mes+"' and anio='"+anio+"'";
             ResultSet fila = con.getConsulta().executeQuery(sql);
            while(fila.next()){
                Novedad n = new Novedad();

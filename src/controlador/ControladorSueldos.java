@@ -56,7 +56,7 @@ public class ControladorSueldos {
         if (_empleadoDAO.VerificarLiquidacionEnPeriodo(mes, anio)) {
             //Obtener ultimo id de boletas y mandar     
             int ultimoIdBoleta = _empleadoDAO.ObtenerUltimoIdBoleta();
-            ArrayList<BoletaSueldo> boletas = _comercio.CrearBoletasSueldo(_empleadoDAO.leer(), _empleadoDAO.LeerConceptos(),_empleadoDAO.ObtenerTodasNovedades(), mes, anio, ultimoIdBoleta);
+            ArrayList<BoletaSueldo> boletas = _comercio.CrearBoletasSueldo(_empleadoDAO.leer(), _empleadoDAO.LeerConceptos(),_empleadoDAO.ObtenerNovedades(mes,anio), mes, anio, ultimoIdBoleta);
             for (BoletaSueldo boleta : boletas) {
                 _empleadoDAO.GuardarBoletas(boleta);
                 _empleadoDAO.GuardarDetalleBoleta(boleta);
